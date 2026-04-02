@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PoetryLand — 100 Poems, Nursery to Class 12</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Fredoka+One&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a0e2e;
+  --parchment: #fdf6e3;
+  --gold: #c9a84c;
+  --rose: #e85d75;
+  --sky: #4ab3d4;
+  --leaf: #5ba85a;
+  --lavender: #9b7fd4;
+  --cream: #fff8f0;
+  --shadow: rgba(26,14,46,0.18);
+  --card-bg: rgba(255,252,245,0.97);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Crimson Pro', serif;
+  background: var(--parchment);
+  color: var(--ink);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATED BACKGROUND
+═══════════════════════════════════════════ */
+#bg-canvas {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  z-index:0;
+  pointer-events:none;
+}
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(26,14,46,0.96);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 60px;
+  border-bottom: 2px solid var(--gold);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: #e8dcc8;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-family: 'Crimson Pro', serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+#live-clock {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 0.85rem;
+  color: var(--sky);
+  letter-spacing: 0.03em;
+  text-align: right;
+  line-height: 1.3;
+}
+
+/* ═══════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════ */
+#hero {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 2rem 4rem;
+  overflow: hidden;
+}
+
+.hero-scene {
+  position: absolute; inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 5;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--gold), #e8c56b);
+  color: var(--ink);
+  padding: 0.4rem 1.4rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  animation: fadeDown 1s ease both;
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  animation: fadeDown 1s 0.15s ease both;
+}
+
+.hero-title span {
+  color: var(--rose);
+  font-style: italic;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  color: #5a4a2e;
+  margin-bottom: 2.5rem;
+  font-style: italic;
+  animation: fadeDown 1s 0.3s ease both;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  animation: fadeDown 1s 0.45s ease both;
+  flex-wrap: wrap;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--rose);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #7a6a4e;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--rose), #c94060);
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  animation: fadeDown 1s 0.6s ease both;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 30px rgba(232,93,117,0.4);
+  font-family: 'Crimson Pro', serif;
+}
+
+.hero-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(232,93,117,0.5);
+}
+
+/* Floating poems preview */
+.float-poem {
+  position: absolute;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 0.75rem;
+  color: rgba(90,74,46,0.55);
+  max-width: 140px;
+  line-height: 1.5;
+  animation: floatAround 12s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════
+   DATETIME BANNER
+═══════════════════════════════════════════ */
+#datetime-banner {
+  position: relative;
+  z-index: 10;
+  background: linear-gradient(135deg, var(--ink), #2d1854);
+  color: var(--parchment);
+  padding: 1.5rem 2rem;
+  text-align: center;
+  border-top: 3px solid var(--gold);
+  border-bottom: 3px solid var(--gold);
+}
+
+.datetime-grid {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.dt-item {
+  text-align: center;
+}
+
+.dt-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  margin-bottom: 0.2rem;
+}
+
+.dt-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+#dt-time-big {
+  font-size: 1.8rem;
+  color: var(--sky);
+}
+
+/* ═══════════════════════════════════════════
+   SECTION HEADERS
+═══════════════════════════════════════════ */
+section {
+  position: relative;
+  z-index: 10;
+}
+
+.section-header {
+  text-align: center;
+  padding: 4rem 2rem 2rem;
+}
+
+.section-tag {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--ink);
+  padding: 0.3rem 1rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 0.8rem;
+}
+
+.section-desc {
+  font-size: 1.1rem;
+  color: #6b5a3e;
+  max-width: 600px;
+  margin: 0 auto;
+  font-style: italic;
+}
+
+/* ═══════════════════════════════════════════
+   CLASS FILTER TABS
+═══════════════════════════════════════════ */
+.filter-bar {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 1.5rem 2rem 2rem;
+  position: relative;
+  z-index: 10;
+}
+
+.filter-btn {
+  padding: 0.5rem 1.1rem;
+  border-radius: 50px;
+  border: 2px solid var(--ink);
+  background: transparent;
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--ink);
+  color: var(--gold);
+}
+
+/* ═══════════════════════════════════════════
+   POEM GRID
+═══════════════════════════════════════════ */
+#poems-section {
+  padding: 0 1.5rem 5rem;
+}
+
+.poems-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.poem-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.8rem;
+  box-shadow: 0 4px 20px var(--shadow);
+  border: 1px solid rgba(201,168,76,0.25);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+  display: none;
+}
+
+.poem-card.show { display: block; }
+
+.poem-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  border-radius: 16px 16px 0 0;
+}
+
+.poem-card.nursery::before { background: linear-gradient(90deg, #ff9eb5, #ffcc99); }
+.poem-card.class1-2::before { background: linear-gradient(90deg, #99d4ff, #c3f0ca); }
+.poem-card.class3-4::before { background: linear-gradient(90deg, #b5a3f5, #ff9eb5); }
+.poem-card.class5-6::before { background: linear-gradient(90deg, #f5d76e, #f0a500); }
+.poem-card.class7-8::before { background: linear-gradient(90deg, #5ba85a, #4ab3d4); }
+.poem-card.class9-10::before { background: linear-gradient(90deg, #e85d75, #9b7fd4); }
+.poem-card.class11-12::before { background: linear-gradient(90deg, #1a0e2e, #c9a84c); }
+
+.poem-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px var(--shadow);
+}
+
+.poem-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.poem-class-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  background: var(--ink);
+  color: var(--gold);
+}
+
+.poem-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.8rem;
+  color: #bbb;
+  font-style: italic;
+}
+
+.poem-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+
+.poem-author {
+  font-size: 0.82rem;
+  color: #9a8a6e;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.poem-theme-icon {
+  font-size: 2rem;
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+.poem-text {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: #3a2a1a;
+  white-space: pre-line;
+  font-style: italic;
+  border-left: 3px solid var(--gold);
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+}
+
+.poem-toggle {
+  background: none;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  border-radius: 20px;
+  padding: 0.3rem 1rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+  font-family: 'Crimson Pro', serif;
+  transition: all 0.2s;
+}
+
+.poem-toggle:hover {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.poem-full { display: none; }
+.poem-full.open { display: block; }
+
+/* ═══════════════════════════════════════════
+   STORY ANIMATION SECTION
+═══════════════════════════════════════════ */
+#story-section {
+  background: linear-gradient(135deg, #1a0e2e 0%, #2d1854 50%, #1a1a2e 100%);
+  padding: 4rem 2rem;
+  overflow: hidden;
+}
+
+#story-section .section-title { color: var(--gold); }
+#story-section .section-desc { color: #c8b8d8; }
+
+.story-stage {
+  max-width: 900px;
+  margin: 3rem auto 0;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 20px;
+  padding: 2rem;
+  min-height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+.story-sky {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 55%;
+  background: linear-gradient(180deg, #0d1b4b 0%, #1a3a7c 60%, #e85d75 100%);
+  border-radius: 20px 20px 0 0;
+}
+
+.story-ground {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 45%;
+  background: linear-gradient(180deg, #2d5a27 0%, #1a3a12 100%);
+  border-radius: 0 0 20px 20px;
+}
+
+/* Stars */
+.star-anim {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+/* Moon */
+.moon {
+  position: absolute;
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fffde7, #f5cc70);
+  box-shadow: 0 0 30px 10px rgba(245,204,112,0.35);
+  top: 30px; right: 80px;
+  animation: moonFloat 6s ease-in-out infinite;
+}
+
+/* Tree */
+.tree {
+  position: absolute;
+  bottom: 42%;
+}
+
+.tree-trunk {
+  width: 16px;
+  height: 50px;
+  background: #6b3f1f;
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+.tree-top {
+  width: 0;
+  height: 0;
+  border-left: 35px solid transparent;
+  border-right: 35px solid transparent;
+  border-bottom: 65px solid #2d7a1f;
+  margin-bottom: -5px;
+  position: relative;
+  left: -27px;
+  animation: treeSway 4s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* Owl */
+.owl {
+  position: absolute;
+  font-size: 2.2rem;
+  animation: owlBob 3s ease-in-out infinite;
+}
+
+/* Story text */
+.story-text-box {
+  position: relative;
+  z-index: 10;
+  background: rgba(20,10,40,0.88);
+  border: 1px solid rgba(201,168,76,0.5);
+  border-radius: 14px;
+  padding: 1.5rem 2rem;
+  margin-top: 220px;
+  backdrop-filter: blur(6px);
+}
+
+.story-poem-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: var(--gold);
+  margin-bottom: 0.3rem;
+}
+
+.story-poem-class {
+  font-size: 0.8rem;
+  color: var(--sky);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.story-poem-lines {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.05rem;
+  color: #e8d8c8;
+  font-style: italic;
+  line-height: 2;
+  white-space: pre-line;
+}
+
+.story-nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.story-nav-btn {
+  background: rgba(201,168,76,0.15);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  border-radius: 50px;
+  padding: 0.6rem 1.8rem;
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.story-nav-btn:hover {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+/* Fireflies */
+.firefly {
+  position: absolute;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #fffde7;
+  box-shadow: 0 0 8px 3px #f5cc70;
+  animation: fireflyMove 7s ease-in-out infinite;
+}
+
+/* Clouds */
+.cloud {
+  position: absolute;
+  border-radius: 50px;
+  background: rgba(255,255,255,0.15);
+  animation: cloudDrift linear infinite;
+}
+
+/* ═══════════════════════════════════════════
+   PROFILE SECTION
+═══════════════════════════════════════════ */
+#profile-section {
+  padding: 5rem 2rem;
+  background: var(--cream);
+}
+
+.profile-card {
+  max-width: 800px;
+  margin: 3rem auto 0;
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 3rem;
+  box-shadow: 0 8px 40px var(--shadow);
+  border: 2px solid rgba(201,168,76,0.3);
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.profile-avatar {
+  text-align: center;
+}
+
+.avatar-ring {
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--rose));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  box-shadow: 0 8px 30px rgba(201,168,76,0.4);
+  font-size: 5rem;
+  text-align: center;
+  line-height: 1;
+}
+
+.profile-name-card {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: center;
+}
+
+.profile-role-card {
+  font-size: 0.8rem;
+  color: #9a8a6e;
+  text-align: center;
+  margin-top: 0.2rem;
+}
+
+.profile-info h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+
+.profile-tagline {
+  font-style: italic;
+  color: var(--rose);
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+}
+
+.profile-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.detail-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+.detail-content { font-size: 0.9rem; }
+
+.detail-label {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #aaa;
+  margin-bottom: 0.1rem;
+}
+
+.detail-value {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.profile-bio {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #5a4a3a;
+  margin-bottom: 1.5rem;
+  border-left: 3px solid var(--gold);
+  padding-left: 1rem;
+}
+
+.profile-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ptag {
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.4);
+  color: #7a5a1e;
+  border-radius: 20px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ═══════════════════════════════════════════
+   INFO SECTION
+═══════════════════════════════════════════ */
+#info-section {
+  background: linear-gradient(180deg, #1a0e2e 0%, #2d1854 100%);
+  padding: 5rem 2rem;
+}
+
+#info-section .section-title { color: var(--gold); }
+#info-section .section-desc { color: #c8b8d8; }
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 3rem auto 0;
+}
+
+.info-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s, background 0.3s;
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.1);
+}
+
+.info-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+
+.info-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 0.6rem;
+}
+
+.info-desc {
+  font-size: 0.9rem;
+  color: #c8b8d8;
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════ */
+footer {
+  background: #0d0818;
+  color: #c8b8d8;
+  text-align: center;
+  padding: 3rem 2rem;
+  border-top: 2px solid var(--gold);
+  position: relative;
+  z-index: 10;
+}
+
+.footer-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  color: #7a6a8a;
+  margin-top: 1rem;
+}
+
+/* ═══════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════ */
+@keyframes fadeDown {
+  from { opacity:0; transform: translateY(-24px); }
+  to { opacity:1; transform: translateY(0); }
+}
+
+@keyframes floatAround {
+  0%,100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-18px) rotate(2deg); }
+}
+
+@keyframes twinkle {
+  0%,100% { opacity:1; transform: scale(1); }
+  50% { opacity:0.2; transform: scale(0.5); }
+}
+
+@keyframes moonFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes treeSway {
+  0%,100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+
+@keyframes owlBob {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes fireflyMove {
+  0% { transform: translate(0,0); opacity:0; }
+  20% { opacity:1; }
+  50% { transform: translate(60px,-40px); opacity:0.8; }
+  80% { opacity:1; }
+  100% { transform: translate(-30px,20px); opacity:0; }
+}
+
+@keyframes cloudDrift {
+  from { transform: translateX(-200px); }
+  to { transform: translateX(calc(100vw + 200px)); }
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .profile-card { grid-template-columns: 1fr; }
+  .profile-details { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .datetime-grid { gap: 1.2rem; }
+  .hero-stats { gap: 1.5rem; }
+}
+
+/* Search box */
+.search-box {
+  display: flex;
+  justify-content: center;
+  padding: 0 2rem 1.5rem;
+  position: relative;
+  z-index: 10;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.7rem 1.5rem;
+  border: 2px solid var(--ink);
+  border-radius: 50px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--cream);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  border-color: var(--rose);
+  box-shadow: 0 4px 16px rgba(232,93,117,0.2);
+}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND CANVAS -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">📖 PoetryLand</a>
+  <ul class="nav-links">
+    <li><a onclick="scrollTo('#hero')">Home</a></li>
+    <li><a onclick="scrollTo('#poems-section')">Poems</a></li>
+    <li><a onclick="scrollTo('#story-section')">Stories</a></li>
+    <li><a onclick="scrollTo('#profile-section')">Profile</a></li>
+    <li><a onclick="scrollTo('#info-section')">Info</a></li>
+  </ul>
+  <div id="live-clock">
+    <div id="nav-time">--:--:--</div>
+    <div id="nav-date">--- --, ----</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-scene" id="hero-scene"></div>
+  <div class="hero-content">
+    <div class="hero-badge">✨ Complete Poetry Collection</div>
+    <h1 class="hero-title">Poetry<span>Land</span></h1>
+    <p class="hero-subtitle">100 English Poems · Nursery to Class 12 · Story Animations</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">100</div>
+        <div class="stat-label">Poems</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">14</div>
+        <div class="stat-label">Class Levels</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Imagination</div>
+      </div>
+    </div>
+    <button class="hero-btn" onclick="document.querySelector('#poems-section').scrollIntoView({behavior:'smooth'})">Explore All Poems →</button>
+  </div>
+</section>
+
+<!-- DATETIME BANNER -->
+<div id="datetime-banner">
+  <div class="datetime-grid">
+    <div class="dt-item"><div class="dt-label">Time</div><div class="dt-value" id="dt-time-big">--:--:--</div></div>
+    <div class="dt-item"><div class="dt-label">Day</div><div class="dt-value" id="dt-day">---</div></div>
+    <div class="dt-item"><div class="dt-label">Date</div><div class="dt-value" id="dt-date">-- --- ----</div></div>
+    <div class="dt-item"><div class="dt-label">Month</div><div class="dt-value" id="dt-month">---</div></div>
+    <div class="dt-item"><div class="dt-label">Year</div><div class="dt-value" id="dt-year">----</div></div>
+  </div>
+</div>
+
+<!-- POEMS SECTION -->
+<section id="poems-section">
+  <div class="section-header">
+    <div class="section-tag">📚 100 Poems</div>
+    <h2 class="section-title">Complete Poetry Collection</h2>
+    <p class="section-desc">From nursery rhymes to classic literature — every class, every theme</p>
+  </div>
+
+  <div class="search-box">
+    <input class="search-input" type="text" id="poem-search" placeholder="🔍  Search poems by title, author or theme…" oninput="filterPoems()">
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterClass('all',this)">All Classes</button>
+    <button class="filter-btn" onclick="filterClass('nursery',this)">Nursery / KG</button>
+    <button class="filter-btn" onclick="filterClass('class1-2',this)">Class 1–2</button>
+    <button class="filter-btn" onclick="filterClass('class3-4',this)">Class 3–4</button>
+    <button class="filter-btn" onclick="filterClass('class5-6',this)">Class 5–6</button>
+    <button class="filter-btn" onclick="filterClass('class7-8',this)">Class 7–8</button>
+    <button class="filter-btn" onclick="filterClass('class9-10',this)">Class 9–10</button>
+    <button class="filter-btn" onclick="filterClass('class11-12',this)">Class 11–12</button>
+  </div>
+
+  <div class="poems-grid" id="poems-grid"></div>
+</section>
+
+<!-- STORY ANIMATION -->
+<section id="story-section">
+  <div class="section-header">
+    <div class="section-tag" style="background:var(--lavender);color:#fff">🌙 Story Animations</div>
+    <h2 class="section-title">Poetry Comes Alive</h2>
+    <p class="section-desc">Watch stories and poems animate under the moonlit sky</p>
+  </div>
+
+  <div class="story-stage" id="story-stage">
+    <!-- Sky layer -->
+    <div class="story-sky" id="story-sky"></div>
+    <!-- Ground -->
+    <div class="story-ground"></div>
+    <!-- Moon -->
+    <div class="moon"></div>
+    <!-- Trees -->
+    <div class="tree" style="left:60px;bottom:43%"><div class="tree-top"></div><div class="tree-trunk"></div></div>
+    <div class="tree" style="right:80px;bottom:43%;transform:scale(0.8)"><div class="tree-top"></div><div class="tree-trunk"></div></div>
+    <div class="tree" style="left:200px;bottom:43%;transform:scale(0.65)"><div class="tree-top"></div><div class="tree-trunk"></div></div>
+    <!-- Owl -->
+    <div class="owl" id="owl" style="left:85px;bottom:57%">🦉</div>
+    <!-- Stars -->
+    <div id="story-stars"></div>
+    <!-- Fireflies -->
+    <div id="fireflies"></div>
+    <!-- Clouds -->
+    <div id="story-clouds"></div>
+
+    <!-- Story Text -->
+    <div class="story-text-box">
+      <div class="story-poem-title" id="s-title">Twinkle, Twinkle, Little Star</div>
+      <div class="story-poem-class" id="s-class">Nursery / KG</div>
+      <div class="story-poem-lines" id="s-lines">Twinkle, twinkle, little star,
+How I wonder what you are!
+Up above the world so high,
+Like a diamond in the sky.</div>
+    </div>
+  </div>
+
+  <div class="story-nav">
+    <button class="story-nav-btn" onclick="prevStoryPoem()">← Previous</button>
+    <button class="story-nav-btn" id="auto-btn" onclick="toggleAutoPlay()">⏵ Auto Play</button>
+    <button class="story-nav-btn" onclick="nextStoryPoem()">Next →</button>
+  </div>
+</section>
+
+<!-- PROFILE SECTION -->
+<section id="profile-section">
+  <div class="section-header">
+    <div class="section-tag">👤 About the Creator</div>
+    <h2 class="section-title">My Profile</h2>
+    <p class="section-desc">The mind behind PoetryLand</p>
+  </div>
+  <div class="profile-card">
+    <div class="profile-avatar">
+      <div class="avatar-ring">🎓</div>
+      <div class="profile-name-card">Panipat, Haryana</div>
+      <div class="profile-role-card">Student & Poetry Lover</div>
+    </div>
+    <div class="profile-info">
+      <h2>Poetry Creator</h2>
+      <p class="profile-tagline">"Words are the wings of imagination."</p>
+      <div class="profile-details">
+        <div class="detail-item">
+          <span class="detail-icon">📍</span>
+          <div class="detail-content">
+            <span class="detail-label">Location</span>
+            <span class="detail-value">Panipat, Haryana, India</span>
+          </div>
+        </div>
+        <div class="detail-item">
+          <span class="detail-icon">🗣️</span>
+          <div class="detail-content">
+            <span class="detail-label">Language</span>
+            <span class="detail-value">English, Hindi</span>
+          </div>
+        </div>
+        <div class="detail-item">
+          <span class="detail-icon">📚</span>
+          <div class="detail-content">
+            <span class="detail-label">Passion</span>
+            <span class="detail-value">Poetry & Literature</span>
+          </div>
+        </div>
+        <div class="detail-item">
+          <span class="detail-icon">🏫</span>
+          <div class="detail-content">
+            <span class="detail-label">Collection</span>
+            <span class="detail-value">Nursery to Class 12</span>
+          </div>
+        </div>
+        <div class="detail-item">
+          <span class="detail-icon">🌍</span>
+          <div class="detail-content">
+            <span class="detail-label">Country</span>
+            <span class="detail-value">India 🇮🇳</span>
+          </div>
+        </div>
+        <div class="detail-item">
+          <span class="detail-icon">✍️</span>
+          <div class="detail-content">
+            <span class="detail-label">Total Poems</span>
+            <span class="detail-value">100 English Poems</span>
+          </div>
+        </div>
+      </div>
+      <p class="profile-bio">
+        A passionate student from Panipat, Haryana, dedicated to bringing the joy of English poetry to learners across all class levels. This curated collection of 100 poems spans from cheerful nursery rhymes to profound classical literature, making poetry accessible and enjoyable for every student.
+      </p>
+      <div class="profile-tags">
+        <span class="ptag">📖 Poetry</span>
+        <span class="ptag">🎓 Education</span>
+        <span class="ptag">✏️ Literature</span>
+        <span class="ptag">🌱 Learning</span>
+        <span class="ptag">🇮🇳 India</span>
+        <span class="ptag">🌟 Creativity</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO SECTION -->
+<section id="info-section">
+  <div class="section-header">
+    <div class="section-tag" style="background:var(--lavender);color:#fff">ℹ️ Information</div>
+    <h2 class="section-title">About This Website</h2>
+    <p class="section-desc">Everything you need to know about PoetryLand</p>
+  </div>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="info-icon">📚</div>
+      <div class="info-title">100 Poems Collection</div>
+      <div class="info-desc">Carefully selected 100 English poems covering all curriculum levels from Nursery/KG through Class 12, spanning classical and modern poetry.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">🎭</div>
+      <div class="info-title">Story Animations</div>
+      <div class="info-desc">Each poem comes alive through animated story scenes — moonlit skies, fireflies, swaying trees, and a wise owl narrate the verses.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">🔍</div>
+      <div class="info-title">Smart Search & Filter</div>
+      <div class="info-desc">Search poems by title or author, or filter by class level using the tab buttons to instantly find what you need.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">🕐</div>
+      <div class="info-title">Live Date & Time</div>
+      <div class="info-desc">Real-time clock showing current time, day, date, month and year — always accurate, always live on every page visit.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">🎨</div>
+      <div class="info-title">Theme-Based Design</div>
+      <div class="info-desc">Each class level has its own color identity and visual theme. Cards, badges and accents change color based on the academic level.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">📱</div>
+      <div class="info-title">Fully Responsive</div>
+      <div class="info-desc">Works beautifully on all devices — desktop, tablet, and mobile. Optimized for comfortable reading on any screen size.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">🌱</div>
+      <div class="info-title">Educational Purpose</div>
+      <div class="info-desc">Designed for Indian school students following CBSE and state board curriculum, with poems aligned to age-appropriate themes.</div>
+    </div>
+    <div class="info-card">
+      <div class="info-icon">⚡</div>
+      <div class="info-title">No Internet Required</div>
+      <div class="info-desc">Once downloaded, this page works completely offline. All 100 poems, animations and features are built into a single HTML file.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-title">📖 PoetryLand</div>
+  <p>100 English Poems · Nursery to Class 12 · Panipat, Haryana, India 🇮🇳</p>
+  <p class="footer-copy" id="footer-year">© 2026 PoetryLand — Made with ❤️ for every student</p>
+</footer>
+
+<script>
+// ═══════════════════════════════════════
+// ALL 100 POEMS DATA
+// ═══════════════════════════════════════
+const poems = [
+  // NURSERY / KG (1-15)
+  {id:1,title:"Twinkle Twinkle Little Star",author:"Jane Taylor",cls:"nursery",clsLabel:"Nursery/KG",icon:"⭐",theme:"Stars & Sky",
+   short:"Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.",
+   full:"Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.\n\nWhen the blazing sun is gone,\nWhen he nothing shines upon,\nThen you show your little light,\nTwinkle, twinkle, through the night.\n\nIn the dark blue sky you keep,\nAnd often through my curtains peep,\nFor you never shut your eye,\nTill the sun is in the sky."},
+
+  {id:2,title:"Humpty Dumpty",author:"Traditional",cls:"nursery",clsLabel:"Nursery/KG",icon:"🥚",theme:"Nursery Rhyme",
+   short:"Humpty Dumpty sat on a wall,\nHumpty Dumpty had a great fall.\nAll the king's horses and all the king's men\nCouldn't put Humpty together again.",
+   full:"Humpty Dumpty sat on a wall,\nHumpty Dumpty had a great fall.\nAll the king's horses and all the king's men\nCouldn't put Humpty together again."},
+
+  {id:3,title:"Jack and Jill",author:"Traditional",cls:"nursery",clsLabel:"Nursery/KG",icon:"🪣",theme:"Adventure",
+   short:"Jack and Jill went up the hill\nTo fetch a pail of water;\nJack fell down and broke his crown,\nAnd Jill came tumbling after.",
+   full:"Jack and Jill went up the hill\nTo fetch a pail of water;\nJack fell down and broke his crown,\nAnd Jill came tumbling after.\n\nUp Jack got, and home did trot,\nAs fast as he could caper;\nHe went to bed to mend his head\nWith vinegar and brown paper."},
+
+  {id:4,title:"Baa Baa Black Sheep",author:"Traditional",cls:"nursery",clsLabel:"Nursery/KG",icon:"🐑",theme:"Animals",
+   short:"Baa, baa, black sheep,\nHave you any wool?\nYes sir, yes sir, three bags full!\nOne for my master, one for my dame.",
+   full:"Baa, baa, black sheep,\nHave you any wool?\nYes sir, yes sir, three bags full!\nOne for my master, one for my dame,\nAnd one for the little boy\nWho lives down the lane."},
+
+  {id:5,title:"Little Miss Muffet",author:"Traditional",cls:"nursery",clsLabel:"Nursery/KG",icon:"🕷️",theme:"Nursery Rhyme",
+   short:"Little Miss Muffet\nSat on a tuffet,\nEating her curds and whey;\nThere came a big spider,\nWho sat down beside her\nAnd frightened Miss Muffet away.",
+   full:"Little Miss Muffet\nSat on a tuffet,\nEating her curds and whey;\nThere came a big spider,\nWho sat down beside her\nAnd frightened Miss Muffet away."},
+
+  {id:6,title:"Incy Wincy Spider",author:"Traditional",cls:"nursery",clsLabel:"Nursery/KG",icon:"🕸️",theme:"Nature",
+   short:"Incy Wincy spider\nClimbed up the waterspout.\nDown came the rain\nAnd washed poor Incy out.\nOut came the sunshine\nAnd dried up all the rain,\nAnd Incy Wincy spider\nClimbed up the spout again.",
+   full:"Incy Wincy spider\nClimbed up the waterspout.\nDown came the rain\nAnd washed poor Incy out.\nOut came the sunshine\nAnd dried up all the rain,\nAnd Incy Wincy spider\nClimbed up the spout again."},
+
+  {id:7,title:"Mary Had a Little Lamb",author:"Sarah Josepha Hale",cls:"nursery",clsLabel:"Nursery/KG",icon:"🐣",theme:"Animals",
+   short:"Mary had a little lamb,\nIts fleece was white as snow;\nAnd everywhere that Mary went,\nThe lamb was sure to go.",
+   full:"Mary had a little lamb,\nIts fleece was white as snow;\nAnd everywhere that Mary went,\nThe lamb was sure to go.\n\nIt followed her to school one day,\nThat was against the rule;\nIt made the children laugh and play\nTo see a lamb at school."},
+
+  {id:8,title:"Old MacDonald Had a Farm",author:"Traditional",cls:"nursery",clsLabel:"Nursery/KG",icon:"🚜",theme:"Farm Life",
+   short:"Old MacDonald had a farm, E-I-E-I-O!\nAnd on that farm he had a cow, E-I-E-I-O!\nWith a moo moo here, and a moo moo there,\nHere a moo, there a moo, everywhere a moo moo!",
+   full:"Old MacDonald had a farm, E-I-E-I-O!\nAnd on that farm he had a cow, E-I-E-I-O!\nWith a moo moo here, and a moo moo there,\nHere a moo, there a moo, everywhere a moo moo!\nOld MacDonald had a farm, E-I-E-I-O!\n\nOld MacDonald had a farm, E-I-E-I-O!\nAnd on that farm he had a duck, E-I-E-I-O!\nWith a quack quack here, and a quack quack there,\nHere a quack, there a quack, everywhere a quack quack!"},
+
+  {id:9,title:"Rain Rain Go Away",author:"Traditional",cls:"nursery",clsLabel:"Nursery/KG",icon:"🌧️",theme:"Weather",
+   short:"Rain, rain, go away,\nCome again another day;\nLittle Johnny wants to play;\nRain, rain, go to Spain,\nNever show your face again!",
+   full:"Rain, rain, go away,\nCome again another day;\nLittle Johnny wants to play;\nRain, rain, go to Spain,\nNever show your face again!"},
+
+  {id:10,title:"Hickory Dickory Dock",author:"Traditional",cls:"nursery",clsLabel:"Nursery/KG",icon:"🐭",theme:"Time",
+   short:"Hickory, dickory, dock,\nThe mouse ran up the clock.\nThe clock struck one,\nThe mouse ran down,\nHickory, dickory, dock.",
+   full:"Hickory, dickory, dock,\nThe mouse ran up the clock.\nThe clock struck one,\nThe mouse ran down,\nHickory, dickory, dock.\n\nHickory, dickory, dock,\nThe mouse ran up the clock.\nThe clock struck two,\nThe mouse said 'Boo!'\nHickory, dickory, dock."},
+
+  {id:11,title:"Johny Johny Yes Papa",author:"Traditional",cls:"nursery",clsLabel:"Nursery/KG",icon:"👶",theme:"Family",
+   short:"Johny Johny, yes papa,\nEating sugar? No papa!\nTelling lies? No papa!\nOpen your mouth — Ha ha ha!",
+   full:"Johny Johny, yes papa,\nEating sugar? No papa!\nTelling lies? No papa!\nOpen your mouth — Ha ha ha!"},
+
+  {id:12,title:"Ring Around the Rosie",author:"Traditional",cls:"nursery",clsLabel:"Nursery/KG",icon:"🌹",theme:"Play",
+   short:"Ring around the rosie,\nA pocket full of posies,\nAshes, ashes,\nWe all fall down!",
+   full:"Ring around the rosie,\nA pocket full of posies,\nAshes, ashes,\nWe all fall down!\n\nThe cows are in the meadow\nEating buttercups,\nAshes, ashes,\nWe all stand up!"},
+
+  {id:13,title:"One Two Three Four Five",author:"Traditional",cls:"nursery",clsLabel:"Nursery/KG",icon:"🐟",theme:"Counting & Nature",
+   short:"One, two, three, four, five,\nOnce I caught a fish alive.\nSix, seven, eight, nine, ten,\nThen I let it go again.",
+   full:"One, two, three, four, five,\nOnce I caught a fish alive.\nSix, seven, eight, nine, ten,\nThen I let it go again.\nWhy did you let it go?\nBecause it bit my finger so.\nWhich finger did it bite?\nThis little finger on the right!"},
+
+  {id:14,title:"Hot Cross Buns",author:"Traditional",cls:"nursery",clsLabel:"Nursery/KG",icon:"🍞",theme:"Food & Fun",
+   short:"Hot cross buns!\nHot cross buns!\nOne a penny, two a penny,\nHot cross buns!",
+   full:"Hot cross buns!\nHot cross buns!\nOne a penny, two a penny,\nHot cross buns!\n\nIf you have no daughters,\nGive them to your sons.\nOne a penny, two a penny,\nHot cross buns!"},
+
+  {id:15,title:"Star Light Star Bright",author:"Traditional",cls:"nursery",clsLabel:"Nursery/KG",icon:"🌟",theme:"Wishes & Stars",
+   short:"Star light, star bright,\nFirst star I see tonight;\nWish I may, wish I might,\nHave this wish I wish tonight.",
+   full:"Star light, star bright,\nFirst star I see tonight;\nWish I may, wish I might,\nHave this wish I wish tonight."},
+
+  // CLASS 1–2 (16-30)
+  {id:16,title:"The Rainbow",author:"Christina Rossetti",cls:"class1-2",clsLabel:"Class 1–2",icon:"🌈",theme:"Nature & Colors",
+   short:"Boats sail on the rivers,\nAnd ships sail on the seas;\nBut clouds that sail across the sky\nAre prettier far than these.",
+   full:"Boats sail on the rivers,\nAnd ships sail on the seas;\nBut clouds that sail across the sky\nAre prettier far than these.\n\nThere are bridges on the rivers,\nAs pretty as you please;\nBut the bow that bridges heaven,\nAnd overtops the trees,\nAnd builds a road from earth to sky,\nIs prettier far than these."},
+
+  {id:17,title:"The Swing",author:"R. L. Stevenson",cls:"class1-2",clsLabel:"Class 1–2",icon:"🎠",theme:"Childhood Joy",
+   short:"How do you like to go up in a swing,\nUp in the air so blue?\nOh, I do think it the pleasantest thing\nEver a child can do!",
+   full:"How do you like to go up in a swing,\nUp in the air so blue?\nOh, I do think it the pleasantest thing\nEver a child can do!\n\nUp in the air and over the wall,\nTill I can see so wide,\nRivers and trees and cattle and all\nOver the countryside."},
+
+  {id:18,title:"If I Were An Apple",author:"Traditional",cls:"class1-2",clsLabel:"Class 1–2",icon:"🍎",theme:"Imagination",
+   short:"If I were an apple\nAnd grew on a tree,\nI think I'd drop down\nOn a nice boy like me!",
+   full:"If I were an apple\nAnd grew on a tree,\nI think I'd drop down\nOn a nice boy like me!\n\nI wouldn't stay there\nGiving nobody joy,\nI'd fall down at once\nAnd say, 'Eat me, my boy!'"},
+
+  {id:19,title:"My Shadow",author:"R. L. Stevenson",cls:"class1-2",clsLabel:"Class 1–2",icon:"🌤️",theme:"Discovery",
+   short:"I have a little shadow that goes in and out with me,\nAnd what can be the use of him is more than I can see.\nHe is very, very like me from the heels up to the head;\nAnd I see him jump before me, when I jump into my bed.",
+   full:"I have a little shadow that goes in and out with me,\nAnd what can be the use of him is more than I can see.\nHe is very, very like me from the heels up to the head;\nAnd I see him jump before me, when I jump into my bed.\n\nThe funniest thing about him is the way he likes to grow—\nNot at all like proper children, which is always very slow;\nFor he sometimes shoots up taller like an india-rubber ball,\nAnd he sometimes gets so little that there's none of him at all."},
+
+  {id:20,title:"Bed in Summer",author:"R. L. Stevenson",cls:"class1-2",clsLabel:"Class 1–2",icon:"☀️",theme:"Seasons",
+   short:"In winter I get up at night\nAnd dress by yellow candle-light.\nIn summer, quite the other way,\nI have to go to bed by day.",
+   full:"In winter I get up at night\nAnd dress by yellow candle-light.\nIn summer, quite the other way,\nI have to go to bed by day.\n\nI have to go to bed and see\nThe birds still hopping on the tree,\nOr hear the grown-up people's feet\nStill going past me in the street."},
+
+  {id:21,title:"Little drops of water",author:"Julia Carney",cls:"class1-2",clsLabel:"Class 1–2",icon:"💧",theme:"Moral",
+   short:"Little drops of water,\nLittle grains of sand,\nMake the mighty ocean\nAnd the pleasant land.",
+   full:"Little drops of water,\nLittle grains of sand,\nMake the mighty ocean\nAnd the pleasant land.\n\nLittle deeds of kindness,\nLittle words of love,\nMake our earth an Eden,\nLike the heaven above."},
+
+  {id:22,title:"The Caterpillar",author:"Christina Rossetti",cls:"class1-2",clsLabel:"Class 1–2",icon:"🐛",theme:"Nature",
+   short:"Brown and furry\nCaterpillar in a hurry,\nTake your walk\nTo the shady leaf, or stalk.",
+   full:"Brown and furry\nCaterpillar in a hurry,\nTake your walk\nTo the shady leaf, or stalk.\n\nMay no toad spy you,\nMay the little birds pass by you;\nSpin and die,\nTo live again a butterfly."},
+
+  {id:23,title:"A Farmer Boy",author:"Traditional",cls:"class1-2",clsLabel:"Class 1–2",icon:"🌾",theme:"Work & Values",
+   short:"I like the farm, I like the hay,\nI like to work the livelong day.\nI love to see the corn so green,\nThe finest field I've ever seen.",
+   full:"I like the farm, I like the hay,\nI like to work the livelong day.\nI love to see the corn so green,\nThe finest field I've ever seen.\n\nThe golden sun rises bright,\nFilling everything with light.\nThe farmer wakes before the dawn,\nAnd works until the day is gone."},
+
+  {id:24,title:"The Moon",author:"R. L. Stevenson",cls:"class1-2",clsLabel:"Class 1–2",icon:"🌙",theme:"Night & Sky",
+   short:"The moon has a face like the clock in the hall;\nShe shines on thieves on the garden wall,\nOn streets and fields and harbour quays,\nAnd birdies asleep in the forks of the trees.",
+   full:"The moon has a face like the clock in the hall;\nShe shines on thieves on the garden wall,\nOn streets and fields and harbour quays,\nAnd birdies asleep in the forks of the trees.\n\nThe squalling cat and the squeaking mouse,\nThe howling dog by the door of the house,\nThe bat that lies in bed at noon,\nAll love to be out by the light of the moon."},
+
+  {id:25,title:"The Wind",author:"Christina Rossetti",cls:"class1-2",clsLabel:"Class 1–2",icon:"🍃",theme:"Nature",
+   short:"Who has seen the wind?\nNeither I nor you:\nBut when the leaves hang trembling\nThe wind is passing through.",
+   full:"Who has seen the wind?\nNeither I nor you:\nBut when the leaves hang trembling\nThe wind is passing through.\n\nWho has seen the wind?\nNeither you nor I:\nBut when the trees bow down their heads\nThe wind is passing by."},
+
+  {id:26,title:"Good Morning",author:"Traditional",cls:"class1-2",clsLabel:"Class 1–2",icon:"🌅",theme:"Morning",
+   short:"Good morning, merry sunshine!\nHow did you wake so soon?\nYou've scared the little stars away\nAnd shined away the moon.",
+   full:"Good morning, merry sunshine!\nHow did you wake so soon?\nYou've scared the little stars away\nAnd shined away the moon.\n\nI saw you go to sleep last night\nBefore I ceased my playing;\nHow did you get way over there,\nAnd where have you been staying?"},
+
+  {id:27,title:"Fuzzy Wuzzy",author:"Traditional",cls:"class1-2",clsLabel:"Class 1–2",icon:"🐻",theme:"Animals & Fun",
+   short:"Fuzzy Wuzzy was a bear,\nFuzzy Wuzzy had no hair.\nFuzzy Wuzzy wasn't fuzzy,\nWas he?",
+   full:"Fuzzy Wuzzy was a bear,\nFuzzy Wuzzy had no hair.\nFuzzy Wuzzy wasn't fuzzy,\nWas he?"},
+
+  {id:28,title:"If You're Happy",author:"Traditional",cls:"class1-2",clsLabel:"Class 1–2",icon:"😊",theme:"Joy",
+   short:"If you're happy and you know it, clap your hands!\nIf you're happy and you know it, clap your hands!\nIf you're happy and you know it,\nThen your face will surely show it.",
+   full:"If you're happy and you know it, clap your hands!\nIf you're happy and you know it, clap your hands!\nIf you're happy and you know it,\nThen your face will surely show it,\nIf you're happy and you know it, clap your hands!\n\nIf you're happy and you know it, stamp your feet!\nIf you're happy and you know it, stamp your feet!"},
+
+  {id:29,title:"The Wheels on the Bus",author:"Traditional",cls:"class1-2",clsLabel:"Class 1–2",icon:"🚌",theme:"Transport",
+   short:"The wheels on the bus go round and round,\nRound and round, round and round.\nThe wheels on the bus go round and round,\nAll through the town.",
+   full:"The wheels on the bus go round and round,\nRound and round, round and round.\nThe wheels on the bus go round and round,\nAll through the town.\n\nThe wipers on the bus go swish swish swish,\nSwish swish swish, swish swish swish.\nThe wipers on the bus go swish swish swish,\nAll through the town."},
+
+  {id:30,title:"Birds of a Feather",author:"Traditional",cls:"class1-2",clsLabel:"Class 1–2",icon:"🦅",theme:"Friendship",
+   short:"Birds of a feather flock together,\nAnd so will pigs and swine;\nRats and mice will have their choice,\nAnd so will I have mine.",
+   full:"Birds of a feather flock together,\nAnd so will pigs and swine;\nRats and mice will have their choice,\nAnd so will I have mine."},
+
+  // CLASS 3–4 (31-45)
+  {id:31,title:"Stopping by Woods on a Snowy Evening",author:"Robert Frost",cls:"class3-4",clsLabel:"Class 3–4",icon:"❄️",theme:"Nature & Reflection",
+   short:"Whose woods these are I think I know.\nHis house is in the village though;\nHe will not see me stopping here\nTo watch his woods fill up with snow.",
+   full:"Whose woods these are I think I know.\nHis house is in the village though;\nHe will not see me stopping here\nTo watch his woods fill up with snow.\n\nMy little horse must think it queer\nTo stop without a farmhouse near\nBetween the woods and frozen lake\nThe darkest evening of the year.\n\nHe gives his harness bells a shake\nTo ask if there is some mistake.\nThe only other sound's the sweep\nOf easy wind and downy flake.\n\nThe woods are lovely, dark and deep,\nBut I have promises to keep,\nAnd miles to go before I sleep,\nAnd miles to go before I sleep."},
+
+  {id:32,title:"The Tyger",author:"William Blake",cls:"class3-4",clsLabel:"Class 3–4",icon:"🐯",theme:"Wonder & Power",
+   short:"Tyger Tyger, burning bright,\nIn the forests of the night;\nWhat immortal hand or eye,\nCould frame thy fearful symmetry?",
+   full:"Tyger Tyger, burning bright,\nIn the forests of the night;\nWhat immortal hand or eye,\nCould frame thy fearful symmetry?\n\nIn what distant deeps or skies,\nBurnt the fire of thine eyes?\nOn what wings dare he aspire?\nWhat the hand, dare seize the fire?\n\nAnd what shoulder, and what art,\nCould twist the sinews of thy heart?\nAnd when thy heart began to beat,\nWhat dread hand? and what dread feet?"},
+
+  {id:33,title:"The Road Not Taken",author:"Robert Frost",cls:"class3-4",clsLabel:"Class 3–4",icon:"🛤️",theme:"Life Choices",
+   short:"Two roads diverged in a yellow wood,\nAnd sorry I could not travel both\nAnd be one traveler, long I stood\nAnd looked down one as far as I could.",
+   full:"Two roads diverged in a yellow wood,\nAnd sorry I could not travel both\nAnd be one traveler, long I stood\nAnd looked down one as far as I could\nTo where it bent in the undergrowth.\n\nThen took the other, as just as fair,\nAnd having perhaps the better claim,\nBecause it was grassy and wanted wear;\nThough as for that the passing there\nHad worn them really about the same.\n\nI shall be telling this with a sigh\nSomewhere ages and ages hence:\nTwo roads diverged in a wood, and I—\nI took the one less traveled by,\nAnd that has made all the difference."},
+
+  {id:34,title:"Daffodils",author:"William Wordsworth",cls:"class3-4",clsLabel:"Class 3–4",icon:"🌼",theme:"Nature & Joy",
+   short:"I wandered lonely as a cloud\nThat floats on high o'er vales and hills,\nWhen all at once I saw a crowd,\nA host, of golden daffodils.",
+   full:"I wandered lonely as a cloud\nThat floats on high o'er vales and hills,\nWhen all at once I saw a crowd,\nA host, of golden daffodils;\nBeside the lake, beneath the trees,\nFluttering and dancing in the breeze.\n\nContinuous as the stars that shine\nAnd twinkle on the Milky Way,\nThey stretched in never-ending line\nAlong the margin of a bay:\nTen thousand saw I at a glance,\nTossing their heads in sprightly dance.\n\nFor oft, when on my couch I lie\nIn vacant or in pensive mood,\nThey flash upon that inward eye\nWhich is the bliss of solitude;\nAnd then my heart with pleasure fills,\nAnd dances with the daffodils."},
+
+  {id:35,title:"The Ant and the Cricket",author:"Adapted from Aesop",cls:"class3-4",clsLabel:"Class 3–4",icon:"🐜",theme:"Moral & Hard Work",
+   short:"A silly young cricket, accustomed to sing\nThrough the warm sunny months of gay summer and spring,\nBegan to complain when he found that at home\nHis cupboard was empty and winter was come.",
+   full:"A silly young cricket, accustomed to sing\nThrough the warm sunny months of gay summer and spring,\nBegan to complain when he found that at home\nHis cupboard was empty and winter was come.\n\nNot a crumb to be found\nOn the snow-covered ground;\nNot a flower could he see,\nNot a leaf on a tree:\nOh, what will become of him?"},
+
+  {id:36,title:"A Tiger in the Zoo",author:"Leslie Norris",cls:"class3-4",clsLabel:"Class 3–4",icon:"🐅",theme:"Freedom vs Captivity",
+   short:"He stalks in his vivid stripes\nThe few steps of his cage,\nOn pads of velvet quiet,\nIn his quiet rage.",
+   full:"He stalks in his vivid stripes\nThe few steps of his cage,\nOn pads of velvet quiet,\nIn his quiet rage.\n\nHe should be lurking in shadow,\nSliding through long grass\nNear the water hole\nWhere plump deer pass.\n\nHe should be snarling around houses\nAt the jungle's edge,\nBaring his white fangs, his claws,\nTerrorising the village!\n\nBut he's locked in a concrete cell,\nHis strength behind bars,\nSmelling the zoo's smells, listening to\nThe sounds of the stars."},
+
+  {id:37,title:"The Brook",author:"Alfred Lord Tennyson",cls:"class3-4",clsLabel:"Class 3–4",icon:"🏞️",theme:"Nature & Journey",
+   short:"I come from haunts of coot and hern,\nI make a sudden sally,\nAnd sparkle out among the fern,\nTo bicker down a valley.",
+   full:"I come from haunts of coot and hern,\nI make a sudden sally,\nAnd sparkle out among the fern,\nTo bicker down a valley.\n\nBy thirty hills I hurry down,\nOr slip between the ridges,\nBy twenty thorps, a little town,\nAnd half a hundred bridges.\n\nFor men may come and men may go,\nBut I go on for ever."},
+
+  {id:38,title:"Village Blacksmith",author:"H.W. Longfellow",cls:"class3-4",clsLabel:"Class 3–4",icon:"⚒️",theme:"Hard Work",
+   short:"Under a spreading chestnut-tree\nThe village smithy stands;\nThe smith, a mighty man is he,\nWith large and sinewy hands.",
+   full:"Under a spreading chestnut-tree\nThe village smithy stands;\nThe smith, a mighty man is he,\nWith large and sinewy hands;\nAnd the muscles of his brawny arms\nAre strong as iron bands.\n\nHis hair is crisp, and black, and long,\nHis face is like the tan;\nHis brow is wet with honest sweat,\nHe earns whate'er he can,\nAnd looks the whole world in the face,\nFor he owes not any man."},
+
+  {id:39,title:"A Psalm of Life",author:"H.W. Longfellow",cls:"class3-4",clsLabel:"Class 3–4",icon:"🌟",theme:"Inspiration",
+   short:"Tell me not, in mournful numbers,\nLife is but an empty dream!\nFor the soul is dead that slumbers,\nAnd things are not what they seem.",
+   full:"Tell me not, in mournful numbers,\nLife is but an empty dream!\nFor the soul is dead that slumbers,\nAnd things are not what they seem.\n\nLife is real! Life is earnest!\nAnd the grave is not its goal;\nDust thou art, to dust returnest,\nWas not spoken of the soul.\n\nLives of great men all remind us\nWe can make our lives sublime,\nAnd, departing, leave behind us\nFootprints on the sands of time."},
+
+  {id:40,title:"The Soldier",author:"Rupert Brooke",cls:"class3-4",clsLabel:"Class 3–4",icon:"🏴",theme:"Patriotism",
+   short:"If I should die, think only this of me:\nThat there's some corner of a foreign field\nThat is for ever England.",
+   full:"If I should die, think only this of me:\nThat there's some corner of a foreign field\nThat is for ever England. There shall be\nIn that rich earth a richer dust concealed;\nA dust whom England bore, shaped, made aware,\nGave, once, her flowers to love, her ways to roam,\nA body of England's, breathing English air,\nWashed by the rivers, blest by suns of home."},
+
+  {id:41,title:"Animals",author:"Walt Whitman",cls:"class3-4",clsLabel:"Class 3–4",icon:"🦁",theme:"Nature",
+   short:"I think I could turn and live with animals,\nthey are so placid and self-contain'd,\nI stand and look at them long and long.",
+   full:"I think I could turn and live with animals,\nthey are so placid and self-contain'd,\nI stand and look at them long and long.\n\nThey do not sweat and whine about their condition,\nThey do not lie awake in the dark and weep for their sins,\nThey do not make me sick discussing their duty to God,\nNot one is dissatisfied, not one is demented with the mania of owning things."},
+
+  {id:42,title:"Fog",author:"Carl Sandburg",cls:"class3-4",clsLabel:"Class 3–4",icon:"🌫️",theme:"Nature",
+   short:"The fog comes\non little cat feet.\nIt sits looking\nover harbor and city\non silent haunches\nand then moves on.",
+   full:"The fog comes\non little cat feet.\nIt sits looking\nover harbor and city\non silent haunches\nand then moves on."},
+
+  {id:43,title:"Dust of Snow",author:"Robert Frost",cls:"class3-4",clsLabel:"Class 3–4",icon:"❄️",theme:"Nature & Mood",
+   short:"The way a crow\nShook down on me\nThe dust of snow\nFrom a hemlock tree\n\nHas given my heart\nA change of mood\nAnd saved some part\nOf a day I had rued.",
+   full:"The way a crow\nShook down on me\nThe dust of snow\nFrom a hemlock tree\n\nHas given my heart\nA change of mood\nAnd saved some part\nOf a day I had rued."},
+
+  {id:44,title:"The Lake Isle of Innisfree",author:"W.B. Yeats",cls:"class3-4",clsLabel:"Class 3–4",icon:"🏝️",theme:"Peace & Nature",
+   short:"I will arise and go now, and go to Innisfree,\nAnd a small cabin build there, of clay and wattles made;\nNine bean-rows will I have there, a hive for the honey-bee,\nAnd live alone in the bee-loud glade.",
+   full:"I will arise and go now, and go to Innisfree,\nAnd a small cabin build there, of clay and wattles made;\nNine bean-rows will I have there, a hive for the honey-bee,\nAnd live alone in the bee-loud glade.\n\nAnd I shall have some peace there, for peace comes dropping slow,\nDropping from the veils of the morning to where the cricket sings;\nThere midnight's all a glimmer, and noon a purple glow,\nAnd evening full of the linnet's wings."},
+
+  {id:45,title:"Where the Mind is Without Fear",author:"Rabindranath Tagore",cls:"class3-4",clsLabel:"Class 3–4",icon:"🕊️",theme:"Freedom",
+   short:"Where the mind is without fear and the head is held high;\nWhere knowledge is free;\nWhere the world has not been broken up into fragments\nBy narrow domestic walls",
+   full:"Where the mind is without fear and the head is held high;\nWhere knowledge is free;\nWhere the world has not been broken up into fragments\nBy narrow domestic walls;\nWhere words come out from the depth of truth;\nWhere tireless striving stretches its arms towards perfection;\nWhere the clear stream of reason has not lost its way\nInto the dreary desert sand of dead habit;\nWhere the mind is led forward by thee\nInto ever-widening thought and action—\nInto that heaven of freedom, my Father, let my country awake."},
+
+  // CLASS 5–6 (46-60)
+  {id:46,title:"The Rime of the Ancient Mariner (extract)",author:"S.T. Coleridge",cls:"class5-6",clsLabel:"Class 5–6",icon:"⚓",theme:"Sea & Guilt",
+   short:"It is an ancient Mariner,\nAnd he stoppeth one of three.\n'By thy long grey beard and glittering eye,\nNow wherefore stopp'st thou me?'",
+   full:"It is an ancient Mariner,\nAnd he stoppeth one of three.\n'By thy long grey beard and glittering eye,\nNow wherefore stopp'st thou me?'\n\nWater, water, every where,\nAnd all the boards did shrink;\nWater, water, every where,\nNor any drop to drink.\n\nHe prayeth best, who loveth best\nAll things both great and small;\nFor the dear God who loveth us,\nHe made and loveth all."},
+
+  {id:47,title:"Ozymandias",author:"Percy Bysshe Shelley",cls:"class5-6",clsLabel:"Class 5–6",icon:"🏛️",theme:"Pride & Impermanence",
+   short:"I met a traveller from an antique land,\nWho said—'Two vast and trunkless legs of stone\nStand in the desert...'",
+   full:"I met a traveller from an antique land,\nWho said—'Two vast and trunkless legs of stone\nStand in the desert. Near them on the sand,\nHalf sunk, a shattered visage lies, whose frown,\nAnd wrinkled lip, and sneer of cold command,\nTell that its sculptor well those passions read\nWhich yet survive, stamped on these lifeless things,\nThe hand that mocked them, and the heart that fed;\nAnd on the pedestal these words appear:\n\"My name is Ozymandias, King of Kings,\nLook on my Works, ye Mighty, and despair!\"\nNothing beside remains. Round the decay\nOf that colossal Wreck, boundless and bare\nThe lone and level sands stretch far away.'"},
+
+  {id:48,title:"O Captain! My Captain!",author:"Walt Whitman",cls:"class5-6",clsLabel:"Class 5–6",icon:"⚓",theme:"Death & Leadership",
+   short:"O Captain! my Captain! our fearful trip is done,\nThe ship has weather'd every rack, the prize we sought is won,\nThe port is near, the bells I hear, the people all exulting.",
+   full:"O Captain! my Captain! our fearful trip is done,\nThe ship has weather'd every rack, the prize we sought is won,\nThe port is near, the bells I hear, the people all exulting,\nWhile follow eyes the steady keel, the vessel grim and daring;\nBut O heart! heart! heart!\nO the bleeding drops of red,\nWhere on the deck my Captain lies,\nFallen cold and dead."},
+
+  {id:49,title:"How Do I Love Thee",author:"Elizabeth Barrett Browning",cls:"class5-6",clsLabel:"Class 5–6",icon:"❤️",theme:"Love",
+   short:"How do I love thee? Let me count the ways.\nI love thee to the depth and breadth and height\nMy soul can reach, when feeling out of sight\nFor the ends of being and ideal grace.",
+   full:"How do I love thee? Let me count the ways.\nI love thee to the depth and breadth and height\nMy soul can reach, when feeling out of sight\nFor the ends of being and ideal grace.\nI love thee to the level of every day's\nMost quiet need, by sun and candle-light.\nI love thee freely, as men strive for right.\nI love thee purely, as they turn from praise."},
+
+  {id:50,title:"Do Not Go Gentle",author:"Dylan Thomas",cls:"class5-6",clsLabel:"Class 5–6",icon:"🌑",theme:"Life & Death",
+   short:"Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light.",
+   full:"Do not go gentle into that good night,\nOld age should burn and rave at close of day;\nRage, rage against the dying of the light.\n\nThough wise men at their end know dark is right,\nBecause their words had forked no lightning they\nDo not go gentle into that good night.\n\nGrave men, near death, who see with blinding sight\nBlind eyes could blaze like meteors and be gay,\nRage, rage against the dying of the light."},
+
+  {id:51,title:"If—",author:"Rudyard Kipling",cls:"class5-6",clsLabel:"Class 5–6",icon:"💪",theme:"Character & Strength",
+   short:"If you can keep your head when all about you\n    Are losing theirs and blaming it on you,\nIf you can trust yourself when all men doubt you,\n    But make allowance for their doubting too;",
+   full:"If you can keep your head when all about you\n    Are losing theirs and blaming it on you,\nIf you can trust yourself when all men doubt you,\n    But make allowance for their doubting too;\nIf you can wait and not be tired by waiting,\n    Or being lied about, don't deal in lies,\nOr being hated, don't give way to hating,\n    And yet don't look too good, nor talk too wise:\n\nIf you can dream—and not make dreams your master;\n    If you can think—and not make thoughts your aim;\n\nYours is the Earth and everything that's in it,\n    And—which is more—you'll be a Man, my son!"},
+
+  {id:52,title:"The Raven",author:"Edgar Allan Poe",cls:"class5-6",clsLabel:"Class 5–6",icon:"🐦‍⬛",theme:"Loss & Mystery",
+   short:"Once upon a midnight dreary, while I pondered, weak and weary,\nOver many a quaint and curious volume of forgotten lore—\nWhile I nodded, nearly napping, suddenly there came a tapping,\nAs of some one gently rapping, rapping at my chamber door.",
+   full:"Once upon a midnight dreary, while I pondered, weak and weary,\nOver many a quaint and curious volume of forgotten lore—\nWhile I nodded, nearly napping, suddenly there came a tapping,\nAs of some one gently rapping, rapping at my chamber door.\n\"'Tis some visitor,\" I muttered, \"tapping at my chamber door—\n            Only this and nothing more.\"\n\nAh, distinctly I remember it was in the bleak December;\nAnd each separate dying ember wrought its ghost upon the floor;\nEagerly I wished the morrow;—vainly I had sought to borrow\nFrom my books surcease of sorrow—sorrow for the lost Lenore—\nFor the rare and radiant maiden whom the angels name Lenore—\n            Nameless here for evermore."},
+
+  {id:53,title:"Annabel Lee",author:"Edgar Allan Poe",cls:"class5-6",clsLabel:"Class 5–6",icon:"🌊",theme:"Love & Loss",
+   short:"It was many and many a year ago,\nIn a kingdom by the sea,\nThat a maiden there lived whom you may know\nBy the name of Annabel Lee.",
+   full:"It was many and many a year ago,\nIn a kingdom by the sea,\nThat a maiden there lived whom you may know\nBy the name of Annabel Lee;\nAnd this maiden she lived with no other thought\nThan to love and be loved by me.\n\nI was a child and she was a child,\nIn this kingdom by the sea;\nBut we loved with a love that was more than love—\nI and my Annabel Lee—\nWith a love that the wingèd seraphs of heaven\nCoveted her and me."},
+
+  {id:54,title:"The Eagle",author:"Alfred Lord Tennyson",cls:"class5-6",clsLabel:"Class 5–6",icon:"🦅",theme:"Nature & Power",
+   short:"He clasps the crag with crooked hands;\nClose to the sun in lonely lands,\nRing'd with the azure world, he stands.\n\nThe wrinkled sea beneath him crawls;\nHe watches from his mountain walls,\nAnd like a thunderbolt he falls.",
+   full:"He clasps the crag with crooked hands;\nClose to the sun in lonely lands,\nRing'd with the azure world, he stands.\n\nThe wrinkled sea beneath him crawls;\nHe watches from his mountain walls,\nAnd like a thunderbolt he falls."},
+
+  {id:55,title:"Nothing Gold Can Stay",author:"Robert Frost",cls:"class5-6",clsLabel:"Class 5–6",icon:"🍂",theme:"Transience",
+   short:"Nature's first green is gold,\nHer hardest hue to hold.\nHer early leaf's a flower;\nBut only so an hour.",
+   full:"Nature's first green is gold,\nHer hardest hue to hold.\nHer early leaf's a flower;\nBut only so an hour.\nThen leaf subsides to leaf.\nSo Eden sank to grief,\nSo dawn goes down to day.\nNothing gold can stay."},
+
+  {id:56,title:"The Highwayman",author:"Alfred Noyes",cls:"class5-6",clsLabel:"Class 5–6",icon:"🌙",theme:"Romance & Tragedy",
+   short:"The wind was a torrent of darkness among the gusty trees.\nThe moon was a ghostly galleon tossed upon cloudy seas.\nThe road was a ribbon of moonlight over the purple moor,\nAnd the highwayman came riding—\n    Riding—riding—",
+   full:"The wind was a torrent of darkness among the gusty trees.\nThe moon was a ghostly galleon tossed upon cloudy seas.\nThe road was a ribbon of moonlight over the purple moor,\nAnd the highwayman came riding—\n    Riding—riding—\nThe highwayman came riding, up to the old inn-door."},
+
+  {id:57,title:"Fire and Ice",author:"Robert Frost",cls:"class5-6",clsLabel:"Class 5–6",icon:"🔥",theme:"Desire & Hatred",
+   short:"Some say the world will end in fire,\nSome say in ice.\nFrom what I've tasted of desire\nI hold with those who favor fire.",
+   full:"Some say the world will end in fire,\nSome say in ice.\nFrom what I've tasted of desire\nI hold with those who favor fire.\nBut if it had to perish twice,\nI think I know enough of hate\nTo say that for destruction ice\nIs also great\nAnd would suffice."},
+
+  {id:58,title:"La Belle Dame Sans Merci",author:"John Keats",cls:"class5-6",clsLabel:"Class 5–6",icon:"🌺",theme:"Enchantment",
+   short:"O what can ail thee, knight-at-arms,\nAlone and palely loitering?\nThe sedge has withered from the lake,\nAnd no birds sing.",
+   full:"O what can ail thee, knight-at-arms,\nAlone and palely loitering?\nThe sedge has withered from the lake,\nAnd no birds sing.\n\nO what can ail thee, knight-at-arms,\nSo haggard and so woe-begone?\nThe squirrel's granary is full,\nAnd the harvest's done."},
+
+  {id:59,title:"The Hollow Men",author:"T.S. Eliot",cls:"class5-6",clsLabel:"Class 5–6",icon:"🌵",theme:"Emptiness & Despair",
+   short:"We are the hollow men\nWe are the stuffed men\nLeaning together\nHeadpiece filled with straw. Alas!",
+   full:"We are the hollow men\nWe are the stuffed men\nLeaning together\nHeadpiece filled with straw. Alas!\nOur dried voices, when\nWe whisper together\nAre quiet and meaningless\nAs wind in dry grass\nOr rats' feet over broken glass\nIn our dry cellar."},
+
+  {id:60,title:"Leisure",author:"W.H. Davies",cls:"class5-6",clsLabel:"Class 5–6",icon:"🌿",theme:"Nature & Life",
+   short:"What is this life if, full of care,\nWe have no time to stand and stare.\nNo time to stand beneath the boughs\nAnd stare as long as sheep or cows.",
+   full:"What is this life if, full of care,\nWe have no time to stand and stare.\nNo time to stand beneath the boughs\nAnd stare as long as sheep or cows:\nNo time to see, when woods we pass,\nWhere squirrels hide their nuts in grass:\nNo time to see, in broad daylight,\nStreams full of stars, like skies at night."},
+
+  // CLASS 7–8 (61-75)
+  {id:61,title:"Ode to a Nightingale",author:"John Keats",cls:"class7-8",clsLabel:"Class 7–8",icon:"🎵",theme:"Beauty & Mortality",
+   short:"My heart aches, and a drowsy numbness pains\nMy sense, as though of hemlock I had drunk,\nOr emptied some dull opiate to the drains\nOne minute past, and Lethe-wards had sunk:",
+   full:"My heart aches, and a drowsy numbness pains\nMy sense, as though of hemlock I had drunk,\nOr emptied some dull opiate to the drains\nOne minute past, and Lethe-wards had sunk:\n'Tis not through envy of thy happy lot,\n    But being too happy in thine happiness,—\n        That thou, light-wingèd Dryad of the trees,\n            In some melodious plot\n    Of beechen green, and shadows numberless,\n        Singest of summer in full-throated ease."},
+
+  {id:62,title:"Ode on a Grecian Urn",author:"John Keats",cls:"class7-8",clsLabel:"Class 7–8",icon:"🏺",theme:"Art & Eternity",
+   short:"Thou still unravish'd bride of quietness,\nThou foster-child of silence and slow time,\nSylvan historian, who canst thus express\nA flowery tale more sweetly than our rhyme.",
+   full:"Thou still unravish'd bride of quietness,\nThou foster-child of silence and slow time,\nSylvan historian, who canst thus express\nA flowery tale more sweetly than our rhyme:\nWhat leaf-fring'd legend haunts about thy shape\nOf deities or mortals, or of both,\nIn Tempe or the dales of Arcady?\nWhat men or gods are these? What maidens loth?"},
+
+  {id:63,title:"To Autumn",author:"John Keats",cls:"class7-8",clsLabel:"Class 7–8",icon:"🍁",theme:"Nature & Season",
+   short:"Season of mists and mellow fruitfulness,\nClose bosom-friend of the maturing sun;\nConspiring with him how to load and bless\nWith fruit the vines that round the thatch-eves run.",
+   full:"Season of mists and mellow fruitfulness,\nClose bosom-friend of the maturing sun;\nConspiring with him how to load and bless\nWith fruit the vines that round the thatch-eves run;\nTo bend with apples the moss'd cottage-trees,\nAnd fill all fruit with ripeness to the core;\nTo swell the gourd, and plump the hazel shells\nWith a sweet kernel; to set budding more."},
+
+  {id:64,title:"The Charge of the Light Brigade",author:"Alfred Lord Tennyson",cls:"class7-8",clsLabel:"Class 7–8",icon:"⚔️",theme:"War & Courage",
+   short:"Half a league, half a league,\nHalf a league onward,\nAll in the valley of Death\nRode the six hundred.",
+   full:"Half a league, half a league,\nHalf a league onward,\nAll in the valley of Death\nRode the six hundred.\n\"Forward, the Light Brigade!\nCharge for the guns!\" he said.\nInto the valley of Death\nRode the six hundred."},
+
+  {id:65,title:"Dover Beach",author:"Matthew Arnold",cls:"class7-8",clsLabel:"Class 7–8",icon:"🌊",theme:"Loss of Faith",
+   short:"The sea is calm tonight.\nThe tide is full, the moon lies fair\nUpon the straits; on the French coast the light\nGleams and is gone.",
+   full:"The sea is calm tonight.\nThe tide is full, the moon lies fair\nUpon the straits; on the French coast the light\nGleams and is gone; the cliffs of England stand,\nGlimmering and vast, out in the tranquil bay.\nCome to the window, sweet is the night-air!\nOnly, from the long line of spray\nWhere the sea meets the moon-blanch'd land,\nListen! you hear the grating roar\nOf pebbles which the waves draw back."},
+
+  {id:66,title:"The Second Coming",author:"W.B. Yeats",cls:"class7-8",clsLabel:"Class 7–8",icon:"🌀",theme:"Chaos & Change",
+   short:"Turning and turning in the widening gyre\nThe falcon cannot hear the falconer;\nThings fall apart; the centre cannot hold;\nMere anarchy is loosed upon the world.",
+   full:"Turning and turning in the widening gyre\nThe falcon cannot hear the falconer;\nThings fall apart; the centre cannot hold;\nMere anarchy is loosed upon the world,\nThe blood-dimmed tide is loosed, and everywhere\nThe ceremony of innocence is drowned;\nThe best lack all conviction, while the worst\nAre full of passionate intensity."},
+
+  {id:67,title:"Ulysses",author:"Alfred Lord Tennyson",cls:"class7-8",clsLabel:"Class 7–8",icon:"⛵",theme:"Adventure & Age",
+   short:"It little profits that an idle king,\nBy this still hearth, among these barren crags,\nMatched with an agèd wife, I mete and dole\nUnequal laws unto a savage race.",
+   full:"It little profits that an idle king,\nBy this still hearth, among these barren crags,\nMatched with an agèd wife, I mete and dole\nUnequal laws unto a savage race,\nThat hoard, and sleep, and feed, and know not me.\n\nI cannot rest from travel: I will drink\nLife to the lees: all times I have enjoy'd\nGreatly, have suffer'd greatly.\n\nTo strive, to seek, to find, and not to yield."},
+
+  {id:68,title:"The Love Song of J. Alfred Prufrock",author:"T.S. Eliot",cls:"class7-8",clsLabel:"Class 7–8",icon:"🫀",theme:"Alienation",
+   short:"Let us go then, you and I,\nWhen the evening is spread out against the sky\nLike a patient etherized upon a table.",
+   full:"Let us go then, you and I,\nWhen the evening is spread out against the sky\nLike a patient etherized upon a table;\nLet us go, through certain half-deserted streets,\nThe muttering retreats\nOf restless nights in one-night cheap hotels\nAnd sawdust restaurants with oyster-shells.\n\nIn the room the women come and go\nTalking of Michelangelo."},
+
+  {id:69,title:"My Last Duchess",author:"Robert Browning",cls:"class7-8",clsLabel:"Class 7–8",icon:"🖼️",theme:"Power & Jealousy",
+   short:"That's my last Duchess painted on the wall,\nLooking as if she were alive. I call\nThat piece a wonder, now.",
+   full:"That's my last Duchess painted on the wall,\nLooking as if she were alive. I call\nThat piece a wonder, now: Frà Pandolf's hands\nWorked busily a day, and there she stands.\nWill't please you sit and look at her? I said\n'Frà Pandolf' by design, for never read\nStrangers like you that pictured countenance."},
+
+  {id:70,title:"The Waste Land (extract)",author:"T.S. Eliot",cls:"class7-8",clsLabel:"Class 7–8",icon:"🌾",theme:"Modernism",
+   short:"April is the cruellest month, breeding\nLilacs out of the dead land, mixing\nMemory and desire, stirring\nDull roots with spring rain.",
+   full:"April is the cruellest month, breeding\nLilacs out of the dead land, mixing\nMemory and desire, stirring\nDull roots with spring rain.\nWinter kept us warm, covering\nEarth in forgetful snow, feeding\nA little life with dried tubers."},
+
+  {id:71,title:"Invictus",author:"W.E. Henley",cls:"class7-8",clsLabel:"Class 7–8",icon:"🦁",theme:"Courage & Will",
+   short:"Out of the night that covers me,\nBlack as the pit from pole to pole,\nI thank whatever gods may be\nFor my unconquerable soul.",
+   full:"Out of the night that covers me,\nBlack as the pit from pole to pole,\nI thank whatever gods may be\nFor my unconquerable soul.\n\nIn the fell clutch of circumstance\nI have not winced nor cried aloud.\nUnder the bludgeonings of chance\nMy head is bloody, but unbowed.\n\nIt matters not how strait the gate,\nHow charged with punishments the scroll,\nI am the master of my fate:\nI am the captain of my soul."},
+
+  {id:72,title:"Sonnet 18",author:"William Shakespeare",cls:"class7-8",clsLabel:"Class 7–8",icon:"🌞",theme:"Love & Immortality",
+   short:"Shall I compare thee to a summer's day?\nThou art more lovely and more temperate:\nRough winds do shake the darling buds of May,\nAnd summer's lease hath all too short a date.",
+   full:"Shall I compare thee to a summer's day?\nThou art more lovely and more temperate:\nRough winds do shake the darling buds of May,\nAnd summer's lease hath all too short a date:\nSometime too hot the eye of heaven shines,\nAnd often is his gold complexion dimm'd;\nAnd every fair from fair sometime declines,\nBy chance, or nature's changing course untrimm'd;\n\nBut thy eternal summer shall not fade,\nNor lose possession of that fair thou ow'st;\nNor shall death brag thou wander'st in his shade,\nWhen in eternal lines to time thou grow'st:\nSo long as men can breathe or eyes can see,\nSo long lives this, and this gives life to thee."},
+
+  {id:73,title:"The Flea",author:"John Donne",cls:"class7-8",clsLabel:"Class 7–8",icon:"🦗",theme:"Love & Metaphysics",
+   short:"Mark but this flea, and mark in this,\nHow little that which thou deniest me is;\nIt sucked me first, and now sucks thee,\nAnd in this flea our two bloods mingled be.",
+   full:"Mark but this flea, and mark in this,\nHow little that which thou deniest me is;\nIt sucked me first, and now sucks thee,\nAnd in this flea our two bloods mingled be;\nThou know'st that this cannot be said\nA sin, nor shame, nor loss of maidenhead,\nYet this enjoys before it woo,\nAnd pampered swells with one blood made of two."},
+
+  {id:74,title:"Death Be Not Proud",author:"John Donne",cls:"class7-8",clsLabel:"Class 7–8",icon:"💀",theme:"Death & Faith",
+   short:"Death, be not proud, though some have called thee\nMighty and dreadful, for thou art not so;\nFor those whom thou think'st thou dost overthrow\nDie not, poor Death, nor yet canst thou kill me.",
+   full:"Death, be not proud, though some have called thee\nMighty and dreadful, for thou art not so;\nFor those whom thou think'st thou dost overthrow\nDie not, poor Death, nor yet canst thou kill me.\nFrom rest and sleep, which but thy pictures be,\nMuch pleasure; then from thee much more must flow,\nAnd soonest our best men with thee do go,\nRest of their bones, and soul's delivery.\nThou art slave to fate, chance, kings, and desperate men,\nAnd dost with poison, war, and sickness dwell;\nAnd poppy or charms can make us sleep as well\nAnd better than thy stroke; why swell'st thou then?\nOne short sleep past, we wake eternally,\nAnd death shall be no more; Death, thou shalt die."},
+
+  {id:75,title:"To His Coy Mistress",author:"Andrew Marvell",cls:"class7-8",clsLabel:"Class 7–8",icon:"⏳",theme:"Time & Love",
+   short:"Had we but world enough and time,\nThis coyness, lady, were no crime.\nWe would sit down, and think which way\nTo walk, and pass our long love's day.",
+   full:"Had we but world enough and time,\nThis coyness, lady, were no crime.\nWe would sit down, and think which way\nTo walk, and pass our long love's day.\nThou by the Indian Ganges' side\nShouldst rubies find; I by the tide\nOf Humber would complain. I would\nLove you ten years before the flood."},
+
+  // CLASS 9–10 (76-88)
+  {id:76,title:"The Love Song (i carry your heart)",author:"E.E. Cummings",cls:"class9-10",clsLabel:"Class 9–10",icon:"💞",theme:"Love",
+   short:"i carry your heart with me(i carry it in\nmy heart)i am never without it(anywhere\ni go you go,my dear;and whatever is done\nby only me is your doing,my darling)",
+   full:"i carry your heart with me(i carry it in\nmy heart)i am never without it(anywhere\ni go you go,my dear;and whatever is done\nby only me is your doing,my darling)\ni fear\nno fate(for you are my fate,my sweet)i want\nno world(for beautiful you are my world,my true)\nand it's you are whatever a moon has always meant\nand whatever a sun will always sing is you\n\nhere is the deepest secret nobody knows\n(here is the root of the root and the bud of the bud\nand the sky of the sky of a tree called life;which grows\nhigher than soul can hope or mind can hide)\nand this is the wonder that's keeping the stars apart\ni carry your heart(i carry it in my heart)"},
+
+  {id:77,title:"Still I Rise",author:"Maya Angelou",cls:"class9-10",clsLabel:"Class 9–10",icon:"🦋",theme:"Resilience",
+   short:"You may write me down in history\nWith your bitter, twisted lies,\nYou may trod me in the very dirt\nBut still, like dust, I'll rise.",
+   full:"You may write me down in history\nWith your bitter, twisted lies,\nYou may trod me in the very dirt\nBut still, like dust, I'll rise.\n\nDoes my sassiness upset you?\nWhy are you beset with gloom?\n'Cause I walk like I've got oil wells\nPumping in my living room.\n\nOut of the huts of history's shame\nI rise\nUp from a past that's rooted in pain\nI rise\nI'm a black ocean, leaping and wide,\nWelling and swelling I bear in the tide.\nLeaving behind nights of terror and fear\nI rise\nInto a daybreak that's wondrously clear\nI rise\nBringing the gifts that my ancestors gave,\nI am the dream and the hope of the slave.\nI rise\nI rise\nI rise."},
+
+  {id:78,title:"The Road Not Taken (full analysis poem)",author:"Robert Frost",cls:"class9-10",clsLabel:"Class 9–10",icon:"🌲",theme:"Choice & Identity",
+   short:"Two roads diverged in a yellow wood,\nAnd sorry I could not travel both\nAnd be one traveler, long I stood\nAnd looked down one as far as I could\nTo where it bent in the undergrowth.",
+   full:"Two roads diverged in a yellow wood,\nAnd sorry I could not travel both\nAnd be one traveler, long I stood\nAnd looked down one as far as I could\nTo where it bent in the undergrowth.\n\nThen took the other, as just as fair,\nAnd having perhaps the better claim,\nBecause it was grassy and wanted wear;\nThough as for that the passing there\nHad worn them really about the same.\n\nAnd both that morning equally lay\nIn leaves no step had trodden black.\nOh, I kept the first for another day!\nYet knowing how way leads on to way,\nI doubted if I should ever come back.\n\nI shall be telling this with a sigh\nSomewhere ages and ages hence:\nTwo roads diverged in a wood, and I—\nI took the one less traveled by,\nAnd that has made all the difference."},
+
+  {id:79,title:"Hope is the Thing with Feathers",author:"Emily Dickinson",cls:"class9-10",clsLabel:"Class 9–10",icon:"🕊️",theme:"Hope",
+   short:"Hope is the thing with feathers\nThat perches in the soul,\nAnd sings the tune without the words,\nAnd never stops at all.",
+   full:"Hope is the thing with feathers\nThat perches in the soul,\nAnd sings the tune without the words,\nAnd never stops at all,\n\nAnd sweetest in the Gale is heard;\nAnd sore must be the storm\nThat could abash the little Bird\nThat kept so many warm."},
+
+  {id:80,title:"The New Colossus",author:"Emma Lazarus",cls:"class9-10",clsLabel:"Class 9–10",icon:"🗽",theme:"Freedom & Welcome",
+   short:"Not like the brazen giant of Greek fame,\nWith conquering limbs astride from land to land;\nHere at our sea-washed, sunset gates shall stand\nA mighty woman with a torch.",
+   full:"Not like the brazen giant of Greek fame,\nWith conquering limbs astride from land to land;\nHere at our sea-washed, sunset gates shall stand\nA mighty woman with a torch, whose flame\nIs the imprisoned lightning, and her name\nMother of Exiles. From her beacon-hand\nGlows world-wide welcome.\n\n\"Give me your tired, your poor,\nYour huddled masses yearning to breathe free,\nThe wretched refuse of your teeming shore.\nSend these, the homeless, tempest-tost to me,\nI lift my lamp beside the golden door!\""},
+
+  {id:81,title:"The Second Coming (Analysis poem)",author:"W.B. Yeats",cls:"class9-10",clsLabel:"Class 9–10",icon:"🌪️",theme:"Civilization & Chaos",
+   short:"Turning and turning in the widening gyre\nThe falcon cannot hear the falconer;\nThings fall apart; the centre cannot hold;\nMere anarchy is loosed upon the world.",
+   full:"Turning and turning in the widening gyre\nThe falcon cannot hear the falconer;\nThings fall apart; the centre cannot hold;\nMere anarchy is loosed upon the world,\nThe blood-dimmed tide is loosed, and everywhere\nThe ceremony of innocence is drowned;\nThe best lack all conviction, while the worst\nAre full of passionate intensity.\n\nSurely some revelation is at hand;\nSurely the Second Coming is at hand.\nThe Second Coming! Hardly are those words out\nWhen a vast image out of Spiritus Mundi\nTroubles my sight."},
+
+  {id:82,title:"Those Winter Sundays",author:"Robert Hayden",cls:"class9-10",clsLabel:"Class 9–10",icon:"❄️",theme:"Family & Love",
+   short:"Sundays too my father got up early\nand put his clothes on in the blueblack cold,\nthen with cracked hands that ached\nfrom labor in the weekday weather made\nbanked fires blaze.",
+   full:"Sundays too my father got up early\nand put his clothes on in the blueblack cold,\nthen with cracked hands that ached\nfrom labor in the weekday weather made\nbanked fires blaze. No one ever thanked him.\n\nI'd wake and hear the cold splintering, breaking.\nWhen the rooms were warm, he'd call,\nand slowly I would rise and dress,\nfearing the chronic angers of that house,\n\nSpeaking indifferently to him,\nwho had driven out the cold\nand polished my good shoes as well.\nWhat did I know, what did I know\nof love's austere and lonely offices?"},
+
+  {id:83,title:"Mending Wall",author:"Robert Frost",cls:"class9-10",clsLabel:"Class 9–10",icon:"🪨",theme:"Barriers & Community",
+   short:"Something there is that doesn't love a wall,\nThat sends the frozen-ground-swell under it,\nAnd spills the upper boulders in the sun;\nAnd makes gaps even two can pass abreast.",
+   full:"Something there is that doesn't love a wall,\nThat sends the frozen-ground-swell under it,\nAnd spills the upper boulders in the sun;\nAnd makes gaps even two can pass abreast.\n\nMy neighbour and I on a day of spring\nWalk the line and make repairs.\nHe says again, 'Good fences make good neighbours.'"},
+
+  {id:84,title:"The Waking",author:"Theodore Roethke",cls:"class9-10",clsLabel:"Class 9–10",icon:"🌄",theme:"Learning & Life",
+   short:"I wake to sleep, and take my waking slow.\nI feel my fate in what I cannot fear.\nI learn by going where I have to go.",
+   full:"I wake to sleep, and take my waking slow.\nI feel my fate in what I cannot fear.\nI learn by going where I have to go.\n\nWe think by feeling. What is there to know?\nI hear my being dance from ear to ear.\nI wake to sleep, and take my waking slow.\n\nOf those so close beside me, which are you?\nGod bless the Ground! I shall walk softly there,\nAnd learn by going where I have to go."},
+
+  {id:85,title:"Digging",author:"Seamus Heaney",cls:"class9-10",clsLabel:"Class 9–10",icon:"⛏️",theme:"Heritage",
+   short:"Between my finger and my thumb\nThe squat pen rests; snug as a gun.\nUnder my window, a clean rasping sound\nWhen the spade sinks into gravelly ground.",
+   full:"Between my finger and my thumb\nThe squat pen rests; snug as a gun.\nUnder my window, a clean rasping sound\nWhen the spade sinks into gravelly ground:\nMy father, digging. I look down\n\nTill his straining rump among the flowerbeds\nBends low, comes up twenty years away.\nStooping in rhythm through potato drills\nWhere he was digging.\n\nBut I've no spade to follow men like them.\nBetween my finger and my thumb\nThe squat pen rests.\nI'll dig with it."},
+
+  {id:86,title:"The Darkling Thrush",author:"Thomas Hardy",cls:"class9-10",clsLabel:"Class 9–10",icon:"🐦",theme:"Hope in Despair",
+   short:"I leant upon a coppice gate\nWhen Frost was spectre-grey,\nAnd Winter's dregs made desolate\nThe weakening eye of day.",
+   full:"I leant upon a coppice gate\nWhen Frost was spectre-grey,\nAnd Winter's dregs made desolate\nThe weakening eye of day.\nThe tangled bine-stems scored the sky\nLike strings of broken lyres,\nAnd all mankind that haunted nigh\nHad sought their household fires.\n\nAt once a voice arose among\nThe bleak twigs overhead\nIn a full-hearted evensong\nOf joy illimited;\nAn aged thrush, frail, gaunt, and small,\nIn blast-beruffled plume,\nHad chosen thus to fling his soul\nUpon the growing gloom."},
+
+  {id:87,title:"Ode to the West Wind",author:"P.B. Shelley",cls:"class9-10",clsLabel:"Class 9–10",icon:"🌬️",theme:"Nature & Change",
+   short:"O wild West Wind, thou breath of Autumn's being,\nThou, from whose unseen presence the leaves dead\nAre driven, like ghosts from an enchanter fleeing.",
+   full:"O wild West Wind, thou breath of Autumn's being,\nThou, from whose unseen presence the leaves dead\nAre driven, like ghosts from an enchanter fleeing,\nYellow, and black, and pale, and hectic red,\nPestilence-stricken multitudes: O thou,\nWho chariotest to their dark wintry bed\nThe wingèd seeds, where they lie cold and low.\n\nIf Winter comes, can Spring be far behind?"},
+
+  {id:88,title:"Ozymandias (Full Analysis)",author:"Percy Bysshe Shelley",cls:"class9-10",clsLabel:"Class 9–10",icon:"⏳",theme:"Power & Decay",
+   short:"I met a traveller from an antique land\nWho said: Two vast and trunkless legs of stone\nStand in the desert. Near them on the sand,\nHalf sunk, a shattered visage lies.",
+   full:"I met a traveller from an antique land\nWho said: Two vast and trunkless legs of stone\nStand in the desert. Near them on the sand,\nHalf sunk, a shattered visage lies, whose frown\nAnd wrinkled lip and sneer of cold command\nTell that its sculptor well those passions read\nWhich yet survive, stamped on these lifeless things,\nThe hand that mocked them and the heart that fed.\nAnd on the pedestal these words appear:\n'My name is Ozymandias, King of Kings:\nLook on my works, ye Mighty, and despair!'\nNothing beside remains. Round the decay\nOf that colossal wreck, boundless and bare,\nThe lone and level sands stretch far away."},
+
+  // CLASS 11–12 (89-100)
+  {id:89,title:"The Love Song of J. Alfred Prufrock (Extended)",author:"T.S. Eliot",cls:"class11-12",clsLabel:"Class 11–12",icon:"🕯️",theme:"Alienation & Modernity",
+   short:"Let us go then, you and I,\nWhen the evening is spread out against the sky\nLike a patient etherized upon a table;\nLet us go, through certain half-deserted streets.",
+   full:"Let us go then, you and I,\nWhen the evening is spread out against the sky\nLike a patient etherized upon a table;\nLet us go, through certain half-deserted streets,\nThe muttering retreats\nOf restless nights in one-night cheap hotels\nAnd sawdust restaurants with oyster-shells:\nStreets that follow like a tedious argument\nOf insidious intent\nTo lead you to an overwhelming question.\n\nI have measured out my life with coffee spoons.\n\nI have heard the mermaids singing, each to each.\nI do not think that they will sing to me."},
+
+  {id:90,title:"Sailing to Byzantium",author:"W.B. Yeats",cls:"class11-12",clsLabel:"Class 11–12",icon:"🏛️",theme:"Art & Immortality",
+   short:"That is no country for old men. The young\nIn one another's arms, birds in the trees,\n— Those dying generations — at their song,\nThe salmon-falls, the mackerel-crowded seas.",
+   full:"That is no country for old men. The young\nIn one another's arms, birds in the trees,\n— Those dying generations — at their song,\nThe salmon-falls, the mackerel-crowded seas,\nFish, flesh, or fowl, commend all summer long\nWhatever is begotten, born, and dies.\nCaught in that sensual music all neglect\nMonuments of unageing intellect.\n\nOnce out of nature I shall never take\nMy bodily form from any natural thing,\nBut such a form as Grecian goldsmiths make\nOf hammered gold and gold enamelling."},
+
+  {id:91,title:"In Memoriam A.H.H. (extract)",author:"Alfred Lord Tennyson",cls:"class11-12",clsLabel:"Class 11–12",icon:"🥀",theme:"Grief & Faith",
+   short:"'Tis better to have loved and lost\nThan never to have loved at all.",
+   full:"I hold it true, whate'er befall;\nI feel it when I sorrow most;\n'Tis better to have loved and lost\nThan never to have loved at all.\n\nYet, though I bless thee, take my hand,\nFor thou art so full of misery—\nNo life that breathes with human breath\nHas ever truly longed for death."},
+
+  {id:92,title:"The Sun Rising",author:"John Donne",cls:"class11-12",clsLabel:"Class 11–2",icon:"☀️",theme:"Love & Universe",
+   short:"Busy old fool, unruly Sun,\nWhy dost thou thus,\nThrough windows, and through curtains, call on us?\nMust to thy motions lovers' seasons run?",
+   full:"Busy old fool, unruly Sun,\nWhy dost thou thus,\nThrough windows, and through curtains, call on us?\nMust to thy motions lovers' seasons run?\nSaucy pedantic wretch, go chide\nLate school-boys and sour prentices,\nGo tell court-huntsmen that the king will ride,\nCall country ants to harvest offices.\n\nShe's all states, and all princes I;\nNothing else is;\nPrinces do but play us; compared to this,\nAll honour's mimic, all wealth alchemy.\nThou, Sun, art half as happy as we,\nIn that the world's contracted thus;\nThine age asks ease, and since thy duties be\nTo warm the world, that's done in warming us.\nShine here to us, and thou art everywhere;\nThis bed thy center is, these walls thy sphere."},
+
+  {id:93,title:"To a Skylark",author:"Percy Bysshe Shelley",cls:"class11-12",clsLabel:"Class 11–12",icon:"🎶",theme:"Joy & Inspiration",
+   short:"Hail to thee, blithe Spirit!\nBird thou never wert,\nThat from Heaven, or near it,\nPourest thy full heart\nIn profuse strains of unpremeditated art.",
+   full:"Hail to thee, blithe Spirit!\nBird thou never wert,\nThat from Heaven, or near it,\nPourest thy full heart\nIn profuse strains of unpremeditated art.\n\nHigher still and higher\nFrom the earth thou springest\nLike a cloud of fire;\nThe blue deep thou wingest,\nAnd singing still dost soar, and soaring ever singest.\n\nTeach me half the gladness\nThat thy brain must know,\nSuch harmonious madness\nFrom my lips would flow\nThe world should listen then—as I am listening now."},
+
+  {id:94,title:"Adonais (extract)",author:"Percy Bysshe Shelley",cls:"class11-12",clsLabel:"Class 11–12",icon:"🌹",theme:"Death & Transcendence",
+   short:"I weep for Adonais—he is dead!\nO, weep for Adonais! though our tears\nThaw not the frost which binds so dear a head!\nAnd thou, sad Hour, selected from all years.",
+   full:"I weep for Adonais—he is dead!\nO, weep for Adonais! though our tears\nThaw not the frost which binds so dear a head!\nAnd thou, sad Hour, selected from all years\nTo mourn our loss, rouse thy obscure compeers,\nAnd teach them thine own sorrow, say: with me\nDied Adonais; till the Future dares\nForget the Past, his fate and fame shall be\nAn echo and a light unto eternity!"},
+
+  {id:95,title:"Paradise Lost (extract)",author:"John Milton",cls:"class11-12",clsLabel:"Class 11–12",icon:"🍎",theme:"Fall & Redemption",
+   short:"Of Man's first disobedience, and the fruit\nOf that forbidden tree whose mortal taste\nBrought death into the World, and all our woe,\nWith loss of Eden.",
+   full:"Of Man's first disobedience, and the fruit\nOf that forbidden tree whose mortal taste\nBrought death into the World, and all our woe,\nWith loss of Eden, till one greater Man\nRestore us, and regain the blissful Seat,\nSing, Heavenly Muse, that, on the secret top\nOf Oreb, or of Sinai, didst inspire\nThat Shepherd who first taught the chosen seed."},
+
+  {id:96,title:"Kubla Khan",author:"S.T. Coleridge",cls:"class11-12",clsLabel:"Class 11–12",icon:"🏰",theme:"Imagination & Dream",
+   short:"In Xanadu did Kubla Khan\nA stately pleasure-dome decree:\nWhere Alph, the sacred river, ran\nThrough caverns measureless to man\nDown to a sunless sea.",
+   full:"In Xanadu did Kubla Khan\nA stately pleasure-dome decree:\nWhere Alph, the sacred river, ran\nThrough caverns measureless to man\nDown to a sunless sea.\nSo twice five miles of fertile ground\nWith walls and towers were girdled round:\nAnd there were gardens bright with sinuous rills,\nWhere blossomed many an incense-bearing tree;\nAnd here were forests ancient as the hills,\nEnfolding sunny spots of greenery.\n\nWeave a circle round him thrice,\nAnd close your eyes with holy dread,\nFor he on honey-dew hath fed,\nAnd drunk the milk of Paradise."},
+
+  {id:97,title:"Crossing the Bar",author:"Alfred Lord Tennyson",cls:"class11-12",clsLabel:"Class 11–12",icon:"🌊",theme:"Death & Peace",
+   short:"Sunset and evening star,\nAnd one clear call for me!\nAnd may there be no moaning of the bar,\nWhen I put out to sea.",
+   full:"Sunset and evening star,\nAnd one clear call for me!\nAnd may there be no moaning of the bar,\nWhen I put out to sea,\nBut such a tide as moving seems asleep,\nToo full for sound and foam,\nWhen that which drew from out the boundless deep\nTurns again home.\n\nTwilight and evening bell,\nAnd after that the dark!\nAnd may there be no sadness of farewell,\nWhen I embark;\nFor though from out our bourne of Time and Place\nThe flood may bear me far,\nI hope to see my Pilot face to face\nWhen I have crost the bar."},
+
+  {id:98,title:"Elegy Written in a Country Churchyard (extract)",author:"Thomas Gray",cls:"class11-12",clsLabel:"Class 11–12",icon:"⛪",theme:"Death & Equality",
+   short:"The curfew tolls the knell of parting day,\nThe lowing herd wind slowly o'er the lea,\nThe plowman homeward plods his weary way,\nAnd leaves the world to darkness and to me.",
+   full:"The curfew tolls the knell of parting day,\nThe lowing herd wind slowly o'er the lea,\nThe plowman homeward plods his weary way,\nAnd leaves the world to darkness and to me.\n\nNow fades the glimmering landscape on the sight,\nAnd all the air a solemn stillness holds,\nSave where the beetle wheels his droning flight,\nAnd drowsy tinklings lull the distant folds.\n\nThe paths of glory lead but to the grave."},
+
+  {id:99,title:"Ode: Intimations of Immortality (extract)",author:"William Wordsworth",cls:"class11-12",clsLabel:"Class 11–12",icon:"🌅",theme:"Childhood & Loss",
+   short:"There was a time when meadow, grove, and stream,\nThe earth, and every common sight,\nTo me did seem\nApparelled in celestial light,\nThe glory and the freshness of a dream.",
+   full:"There was a time when meadow, grove, and stream,\nThe earth, and every common sight,\nTo me did seem\nApparelled in celestial light,\nThe glory and the freshness of a dream.\nIt is not now as it hath been of yore;—\nTurn wheresoe'er I may,\nBy night or day,\nThe things which I have seen I now can see no more.\n\nThough nothing can bring back the hour\nOf splendour in the grass, of glory in the flower;\nWe will grieve not, rather find\nStrength in what remains behind."},
+
+  {id:100,title:"When I Have Fears",author:"John Keats",cls:"class11-12",clsLabel:"Class 11–12",icon:"🖋️",theme:"Mortality & Ambition",
+   short:"When I have fears that I may cease to be\nBefore my pen has gleaned my teeming brain,\nBefore high-pilèd books, in charactery,\nHold like rich garners the full-ripened grain.",
+   full:"When I have fears that I may cease to be\nBefore my pen has gleaned my teeming brain,\nBefore high-pilèd books, in charactery,\nHold like rich garners the full-ripened grain;\nWhen I behold, upon the night's starred face,\nHuge cloudy symbols of a high romance,\nAnd think that I may never live to trace\nTheir shadows, with the magic hand of chance;\nAnd when I feel, fair creature of an hour,\nThat I shall never look upon thee more,\nNever have relish in the faery power\nOf unreflecting love!—then on the shore\nOf the wide world I stand alone, and think\nTill Love and Fame sink to nothingness."}
+];
+
+// ═══════════════════════════════════════
+// RENDER POEMS
+// ═══════════════════════════════════════
+function renderPoems(list) {
+  const grid = document.getElementById('poems-grid');
+  grid.innerHTML = '';
+  list.forEach(p => {
+    const card = document.createElement('div');
+    card.className = `poem-card ${p.cls} show`;
+    card.dataset.title = p.title.toLowerCase();
+    card.dataset.author = p.author.toLowerCase();
+    card.dataset.theme = p.theme.toLowerCase();
+    card.innerHTML = `
+      <div class="poem-meta">
+        <span class="poem-class-badge">${p.clsLabel}</span>
+        <span class="poem-number">#${p.id}</span>
+      </div>
+      <span class="poem-theme-icon">${p.icon}</span>
+      <div class="poem-title">${p.title}</div>
+      <div class="poem-author">— ${p.author} · ${p.theme}</div>
+      <div class="poem-text">${p.short}</div>
+      <div class="poem-full" id="full-${p.id}">${p.full}</div>
+      <button class="poem-toggle" onclick="toggleFull(${p.id},this)">Read Full Poem ▼</button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function toggleFull(id, btn) {
+  const el = document.getElementById('full-' + id);
+  const card = el.closest('.poem-card');
+  const shortEl = card.querySelector('.poem-text');
+  if (el.classList.contains('open')) {
+    el.classList.remove('open');
+    shortEl.style.display = '';
+    btn.textContent = 'Read Full Poem ▼';
+  } else {
+    el.classList.add('open');
+    shortEl.style.display = 'none';
+    btn.textContent = 'Show Less ▲';
+    // Replace the full text element's content
+    el.style.fontSize = '0.95rem';
+    el.style.lineHeight = '1.8';
+    el.style.color = '#3a2a1a';
+    el.style.whiteSpace = 'pre-line';
+    el.style.fontStyle = 'italic';
+    el.style.borderLeft = '3px solid var(--gold)';
+    el.style.paddingLeft = '1rem';
+    el.style.marginBottom = '1rem';
+  }
+}
+
+let currentClass = 'all';
+
+function filterClass(cls, btn) {
+  currentClass = cls;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilter();
+}
+
+function filterPoems() { applyFilter(); }
+
+function applyFilter() {
+  const q = document.getElementById('poem-search').value.toLowerCase();
+  document.querySelectorAll('.poem-card').forEach(card => {
+    const clsMatch = currentClass === 'all' || card.classList.contains(currentClass);
+    const textMatch = !q || card.dataset.title.includes(q) || card.dataset.author.includes(q) || card.dataset.theme.includes(q);
+    card.style.display = clsMatch && textMatch ? '' : 'none';
+  });
+}
+
+function scrollTo(sel) {
+  document.querySelector(sel).scrollIntoView({behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════
+// LIVE CLOCK
+// ═══════════════════════════════════════
+function updateClock() {
+  const now = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const timeStr = `${h}:${m}:${s}`;
+  const dateStr = `${String(now.getDate()).padStart(2,'0')} ${months[now.getMonth()].slice(0,3)} ${now.getFullYear()}`;
+  if(document.getElementById('nav-time')) document.getElementById('nav-time').textContent = timeStr;
+  if(document.getElementById('nav-date')) document.getElementById('nav-date').textContent = dateStr;
+  if(document.getElementById('dt-time-big')) document.getElementById('dt-time-big').textContent = timeStr;
+  if(document.getElementById('dt-day')) document.getElementById('dt-day').textContent = days[now.getDay()];
+  if(document.getElementById('dt-date')) document.getElementById('dt-date').textContent = `${String(now.getDate()).padStart(2,'0')} ${months[now.getMonth()]} ${now.getFullYear()}`;
+  if(document.getElementById('dt-month')) document.getElementById('dt-month').textContent = months[now.getMonth()];
+  if(document.getElementById('dt-year')) document.getElementById('dt-year').textContent = now.getFullYear();
+  if(document.getElementById('footer-year')) document.getElementById('footer-year').textContent = `© ${now.getFullYear()} PoetryLand — Made with ❤️ for every student`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ═══════════════════════════════════════
+// BACKGROUND CANVAS ANIMATION
+// ═══════════════════════════════════════
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  const particles = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for (let i = 0; i < 40; i++) {
+    particles.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 3 + 1,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      alpha: Math.random() * 0.3 + 0.05
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W;
+      if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;
+      if (p.y > H) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(201,168,76,${p.alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ═══════════════════════════════════════
+// HERO FLOATING POEMS
+// ═══════════════════════════════════════
+(function() {
+  const scene = document.getElementById('hero-scene');
+  const snippets = [
+    '"Twinkle twinkle\nlittle star..."',
+    '"Miles to go\nbefore I sleep..."',
+    '"Tyger Tyger\nburning bright..."',
+    '"I wandered\nlonely as a cloud..."',
+    '"Two roads diverged\nin a wood..."',
+    '"Out of the night\nthat covers me..."',
+    '"Shall I compare\nthee to a summer\'s day?"',
+    '"Hope is the thing\nwith feathers..."',
+  ];
+  snippets.forEach((s, i) => {
+    const el = document.createElement('div');
+    el.className = 'float-poem';
+    el.textContent = s;
+    el.style.left = (10 + Math.random() * 80) + '%';
+    el.style.top = (10 + Math.random() * 80) + '%';
+    el.style.animationDelay = (i * 1.5) + 's';
+    el.style.animationDuration = (10 + Math.random() * 6) + 's';
+    scene.appendChild(el);
+  });
+})();
+
+// ═══════════════════════════════════════
+// STORY ANIMATION SETUP
+// ═══════════════════════════════════════
+(function() {
+  // Stars
+  const starContainer = document.getElementById('story-stars');
+  for (let i = 0; i < 40; i++) {
+    const star = document.createElement('div');
+    star.className = 'star-anim';
+    const size = Math.random() * 3 + 1;
+    star.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random() * 100}%;
+      top:${Math.random() * 50}%;
+      animation-delay:${Math.random() * 3}s;
+      animation-duration:${1.5 + Math.random() * 2}s;
+    `;
+    starContainer.appendChild(star);
+  }
+
+  // Fireflies
+  const ffContainer = document.getElementById('fireflies');
+  for (let i = 0; i < 8; i++) {
+    const ff = document.createElement('div');
+    ff.className = 'firefly';
+    ff.style.cssText = `
+      left:${20 + Math.random() * 60}%;
+      bottom:${42 + Math.random() * 15}%;
+      animation-delay:${Math.random() * 7}s;
+      animation-duration:${5 + Math.random() * 4}s;
+    `;
+    ffContainer.appendChild(ff);
+  }
+
+  // Clouds
+  const cloudContainer = document.getElementById('story-clouds');
+  for (let i = 0; i < 3; i++) {
+    const cloud = document.createElement('div');
+    cloud.className = 'cloud';
+    const w = 80 + Math.random() * 60;
+    const h = 25 + Math.random() * 15;
+    cloud.style.cssText = `
+      width:${w}px; height:${h}px;
+      top:${5 + Math.random() * 25}%;
+      opacity:0.15;
+      animation-duration:${25 + Math.random() * 20}s;
+      animation-delay:${-Math.random() * 20}s;
+    `;
+    cloudContainer.appendChild(cloud);
+  }
+})();
+
+// Story Poem Carousel
+const storyPoems = [
+  { title:"Twinkle Twinkle Little Star", cls:"Nursery/KG", text:"Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky." },
+  { title:"I Wandered Lonely as a Cloud", cls:"Class 3–4", text:"I wandered lonely as a cloud\nThat floats on high o'er vales and hills,\nWhen all at once I saw a crowd,\nA host, of golden daffodils." },
+  { title:"Stopping by Woods on a Snowy Evening", cls:"Class 3–4", text:"The woods are lovely, dark and deep,\nBut I have promises to keep,\nAnd miles to go before I sleep,\nAnd miles to go before I sleep." },
+  { title:"The Tyger", cls:"Class 3–4", text:"Tyger Tyger, burning bright,\nIn the forests of the night;\nWhat immortal hand or eye,\nCould frame thy fearful symmetry?" },
+  { title:"If—", cls:"Class 5–6", text:"If you can keep your head when all about you\nAre losing theirs and blaming it on you,\nIf you can trust yourself when all men doubt you,\nBut make allowance for their doubting too;" },
+  { title:"Invictus", cls:"Class 7–8", text:"Out of the night that covers me,\nBlack as the pit from pole to pole,\nI thank whatever gods may be\nFor my unconquerable soul." },
+  { title:"Still I Rise", cls:"Class 9–10", text:"You may write me down in history\nWith your bitter, twisted lies,\nYou may trod me in the very dirt\nBut still, like dust, I'll rise." },
+  { title:"Sailing to Byzantium", cls:"Class 11–12", text:"Once out of nature I shall never take\nMy bodily form from any natural thing,\nBut such a form as Grecian goldsmiths make\nOf hammered gold and gold enamelling." },
+  { title:"Sonnet 18", cls:"Class 7–8", text:"Shall I compare thee to a summer's day?\nThou art more lovely and more temperate:\nRough winds do shake the darling buds of May,\nAnd summer's lease hath all too short a date." },
+  { title:"Kubla Khan", cls:"Class 11–12", text:"In Xanadu did Kubla Khan\nA stately pleasure-dome decree:\nWhere Alph, the sacred river, ran\nThrough caverns measureless to man\nDown to a sunless sea." },
+];
+
+let storyIdx = 0;
+let autoPlay = false;
+let autoInterval = null;
+
+function updateStory() {
+  const p = storyPoems[storyIdx];
+  const titleEl = document.getElementById('s-title');
+  const clsEl = document.getElementById('s-class');
+  const linesEl = document.getElementById('s-lines');
+  titleEl.style.opacity = '0';
+  linesEl.style.opacity = '0';
+  setTimeout(() => {
+    titleEl.textContent = p.title;
+    clsEl.textContent = p.cls;
+    linesEl.textContent = p.text;
+    titleEl.style.transition = 'opacity 0.6s';
+    linesEl.style.transition = 'opacity 0.6s';
+    titleEl.style.opacity = '1';
+    linesEl.style.opacity = '1';
+  }, 300);
+  // Change sky color based on poem
+  const skies = [
+    'linear-gradient(180deg,#0d1b4b 0%,#1a3a7c 60%,#e85d75 100%)',
+    'linear-gradient(180deg,#0a2a0a 0%,#1a5a1a 60%,#f5cc70 100%)',
+    'linear-gradient(180deg,#1a1a2e 0%,#16213e 60%,#c0d6e8 100%)',
+    'linear-gradient(180deg,#2d0a0a 0%,#5a1a00 60%,#ff9900 100%)',
+    'linear-gradient(180deg,#1a0e2e 0%,#2d1854 60%,#9b7fd4 100%)',
+  ];
+  document.getElementById('story-sky').style.background = skies[storyIdx % skies.length];
+}
+
+function nextStoryPoem() {
+  storyIdx = (storyIdx + 1) % storyPoems.length;
+  updateStory();
+}
+
+function prevStoryPoem() {
+  storyIdx = (storyIdx - 1 + storyPoems.length) % storyPoems.length;
+  updateStory();
+}
+
+function toggleAutoPlay() {
+  autoPlay = !autoPlay;
+  const btn = document.getElementById('auto-btn');
+  if (autoPlay) {
+    btn.textContent = '⏸ Pause';
+    autoInterval = setInterval(nextStoryPoem, 4000);
+  } else {
+    btn.textContent = '⏵ Auto Play';
+    clearInterval(autoInterval);
+  }
+}
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+renderPoems(poems);
+updateStory();
+</script>
+</body>
+</html>
