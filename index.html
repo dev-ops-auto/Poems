@@ -936,11 +936,11 @@ footer {
 <nav>
   <a class="nav-logo" href="#hero">📖 PoetryLand</a>
   <ul class="nav-links">
-    <li><a onclick="scrollTo('#hero')">Home</a></li>
-    <li><a onclick="scrollTo('#poems-section')">Poems</a></li>
-    <li><a onclick="scrollTo('#story-section')">Stories</a></li>
-    <li><a onclick="scrollTo('#profile-section')">Profile</a></li>
-    <li><a onclick="scrollTo('#info-section')">Info</a></li>
+    <li><a onclick="scrollToSection('#hero')">Home</a></li>
+    <li><a onclick="scrollToSection('#poems-section')">Poems</a></li>
+    <li><a onclick="scrollToSection('#story-section')">Stories</a></li>
+    <li><a onclick="scrollToSection('#profile-section')">Profile</a></li>
+    <li><a onclick="scrollToSection('#info-section')">Info</a></li>
   </ul>
   <div id="live-clock">
     <div id="nav-time">--:--:--</div>
@@ -1065,47 +1065,47 @@ Like a diamond in the sky.</div>
   </div>
   <div class="profile-card">
     <div class="profile-avatar">
-      <div class="avatar-ring">🎓</div>
-      <div class="profile-name-card">Panipat, Haryana</div>
-      <div class="profile-role-card">Student & Poetry Lover</div>
+      <div class="avatar-ring">🧑‍💻</div>
+      <div class="profile-name-card">Pawan Rajput</div>
+      <div class="profile-role-card">Professional Hacker</div>
     </div>
     <div class="profile-info">
-      <h2>Poetry Creator</h2>
-      <p class="profile-tagline">"Words are the wings of imagination."</p>
+      <h2>Pawan Rajput</h2>
+      <p class="profile-tagline">"Professional Hacker · Creator of PoetryLand"</p>
       <div class="profile-details">
         <div class="detail-item">
           <span class="detail-icon">📍</span>
           <div class="detail-content">
             <span class="detail-label">Location</span>
-            <span class="detail-value">Panipat, Haryana, India</span>
+            <span class="detail-value">Hamirpur, Himachal Pradesh, India</span>
           </div>
         </div>
         <div class="detail-item">
-          <span class="detail-icon">🗣️</span>
+          <span class="detail-icon">📞</span>
           <div class="detail-content">
-            <span class="detail-label">Language</span>
-            <span class="detail-value">English, Hindi</span>
+            <span class="detail-label">Contact</span>
+            <span class="detail-value">+91 82199 59590</span>
           </div>
         </div>
         <div class="detail-item">
-          <span class="detail-icon">📚</span>
+          <span class="detail-icon">🐦</span>
           <div class="detail-content">
-            <span class="detail-label">Passion</span>
-            <span class="detail-value">Poetry & Literature</span>
+            <span class="detail-label">Twitter / X</span>
+            <span class="detail-value">@__ErPawanThakur__</span>
           </div>
         </div>
         <div class="detail-item">
-          <span class="detail-icon">🏫</span>
+          <span class="detail-icon">💻</span>
           <div class="detail-content">
-            <span class="detail-label">Collection</span>
-            <span class="detail-value">Nursery to Class 12</span>
+            <span class="detail-label">GitHub</span>
+            <span class="detail-value">rajputpawanthakur</span>
           </div>
         </div>
         <div class="detail-item">
-          <span class="detail-icon">🌍</span>
+          <span class="detail-icon">🔗</span>
           <div class="detail-content">
-            <span class="detail-label">Country</span>
-            <span class="detail-value">India 🇮🇳</span>
+            <span class="detail-label">LinkedIn</span>
+            <a class="detail-value" href="https://www.linkedin.com/in/pawan-rajput8219959590/" target="_blank" style="color:var(--rose);text-decoration:none;">pawan-rajput8219959590</a>
           </div>
         </div>
         <div class="detail-item">
@@ -1117,13 +1117,13 @@ Like a diamond in the sky.</div>
         </div>
       </div>
       <p class="profile-bio">
-        A passionate student from Panipat, Haryana, dedicated to bringing the joy of English poetry to learners across all class levels. This curated collection of 100 poems spans from cheerful nursery rhymes to profound classical literature, making poetry accessible and enjoyable for every student.
+        Pawan Rajput is a Professional Hacker and tech enthusiast from Hamirpur, Himachal Pradesh. Passionate about both cybersecurity and literature, he created PoetryLand to bring the joy of English poetry to students across all class levels — from nursery rhymes to classical masterpieces.
       </p>
       <div class="profile-tags">
+        <span class="ptag">🔐 Cybersecurity</span>
         <span class="ptag">📖 Poetry</span>
         <span class="ptag">🎓 Education</span>
-        <span class="ptag">✏️ Literature</span>
-        <span class="ptag">🌱 Learning</span>
+        <span class="ptag">💻 Tech</span>
         <span class="ptag">🇮🇳 India</span>
         <span class="ptag">🌟 Creativity</span>
       </div>
@@ -1185,7 +1185,10 @@ Like a diamond in the sky.</div>
 <!-- FOOTER -->
 <footer>
   <div class="footer-title">📖 PoetryLand</div>
-  <p>100 English Poems · Nursery to Class 12 · Panipat, Haryana, India 🇮🇳</p>
+  <p>100 English Poems · Nursery to Class 12 · Created by <strong style="color:var(--gold)">Pawan Rajput</strong> · Hamirpur, Himachal Pradesh 🇮🇳</p>
+  <p style="margin-top:0.5rem;font-size:0.9rem;color:#9b7fd4">
+    🐦 @__ErPawanThakur__ &nbsp;|&nbsp; 💻 rajputpawanthakur &nbsp;|&nbsp; 📞 +91 82199 59590
+  </p>
   <p class="footer-copy" id="footer-year">© 2026 PoetryLand — Made with ❤️ for every student</p>
 </footer>
 
@@ -1674,7 +1677,7 @@ function applyFilter() {
   });
 }
 
-function scrollTo(sel) {
+function scrollToSection(sel) {
   document.querySelector(sel).scrollIntoView({behavior:'smooth'});
 }
 
